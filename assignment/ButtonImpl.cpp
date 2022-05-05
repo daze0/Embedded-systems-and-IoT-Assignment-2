@@ -1,7 +1,7 @@
-#include "AbstractButton.h"
+#include "ButtonImpl.h"
 #include "Arduino.h"
 
-ButtonImpl::AbstarctButton(int pin){
+ButtonImpl::ButtonImpl(int pin){
   this->pin = pin;
   pinMode(pin, INPUT);  
   sync();   

@@ -13,7 +13,7 @@ protected:
   void updateSyncTime(long time);
 
 private:
-  long lastSyncTime;
+  long lastTimeSync;
 
 };
 
