@@ -6,10 +6,9 @@
 class AbstractSensor: public Sensor {
 public:
   AbstractSensor(int pin);
-  int readValue();
-  float readValue();
-private:
+  virtual double readValue() = 0;
+protected:
   int pin;
-}
+};
 
 #endif
