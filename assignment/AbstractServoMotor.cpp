@@ -1,22 +1,22 @@
 #include "AbstractServoMotor.h"
 #include "ServoMotor.h"
 
-AbstractServoMotor::AbstractServoMotor(ServoMotor motor){
+AbstractServoMotor::AbstractServoMotor(ServoMotor* motor){
   this->motor = motor;
 }
 
-AbstractServoMotor::on(){
+void AbstractServoMotor::on(){
   this->motor->on();    
 }
 
-AbstractServoMotor::off(){
+void AbstractServoMotor::off(){
   this->motor->off();    
 }
 
-AbstractServoMotor::setPosition(int angle){
+void AbstractServoMotor::setPosition(int angle){
   this->motor->setPosition(angle);    
 }
 
-AbstractServoMotor::readPosition(){
+int AbstractServoMotor::readPosition(){
   return this->motor->readPosition();    
 }

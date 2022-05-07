@@ -8,7 +8,7 @@
 class ServoMotorWithTimerImpl : AbstractServoMotor, ServoMotorWithTimer{
 
 public:  
-  ServoMotorWithTimerImpl(ServoMotor motor);
+  ServoMotorWithTimerImpl(ServoMotor* motor);
   void setupTimer(int Tmaking);
   void startTimer();
 

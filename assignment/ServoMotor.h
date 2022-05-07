@@ -8,6 +8,7 @@ public:
   virtual void setPosition(int angle) = 0;
   virtual void off() = 0;
   virtual int readPosition() = 0;
+  virtual bool isAttached() = 0;
 };
 
 #endif

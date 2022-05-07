@@ -2,7 +2,7 @@
 #define __SERVO_MOTOR_WITH_TIMER__
 
 #include "ServoMotor.h"
-class ServoMotor{
+class ServoMotorWithTimer{
 
 public:
   virtual void setupTimer(int Tmaking);

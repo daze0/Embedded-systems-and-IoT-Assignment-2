@@ -2,14 +2,11 @@
 #define __ABSTRACT_SERVO_MOTOR__
 
 #include "ServoMotor.h"
-#include "Arduino.h"
-#include "ServoTimer2.h"
 
 class AbstractServoMotor: public ServoMotor{
 
 public:
   AbstractServoMotor(ServoMotor* motor);
-
   void on();
   void off();
   void setPosition(int angle);
