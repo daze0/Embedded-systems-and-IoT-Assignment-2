@@ -18,7 +18,7 @@ public:
 
 private:
   int pin;
-  ServoTimer2 motor;
+  ServoTimer2* motor;
 };
 
 #endif

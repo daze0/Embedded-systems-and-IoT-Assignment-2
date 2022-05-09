@@ -47,11 +47,7 @@ The pulse width timing is accurate to within 1%
 
 #include <inttypes.h>
 //typedef uint8_t boolean;
-//typedef uint8_t byte;
-
-// #define MIN_PULSE_WIDTH       750        // the shortest pulse sent to a servo  
-
-// #define MAX_PULSE_WIDTH      2250        // the longest pulse sent to a servo 
+//typedef uint8_t byte; 
 
 #define MIN_PULSE_WIDTH       400        // the shortest pulse sent to a servo  
 

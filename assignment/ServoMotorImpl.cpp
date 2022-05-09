@@ -6,22 +6,22 @@ ServoMotorImpl::ServoMotorImpl(int pin){
 }
 
 void ServoMotorImpl::on(){
-  motor.attach(pin);
+  motor->attach(pin);
 }
 
 void ServoMotorImpl::off(){
-  motor.detach();
+  motor->detach();
 }
 
 void ServoMotorImpl::setPosition(int angle){
   float coeff = (2750.0-400.0)/180;
-  motor.write(400 + angle*coeff);    
+  motor->write(400 + angle*coeff);    
 }
 
 int ServoMotorImpl::readPosition(){
-  return motor.read();
+  return motor->read();
 }
 
 bool ServoMotorImpl::isAttached(){
-  return motor.attached();
+  return motor->attached();
 }
