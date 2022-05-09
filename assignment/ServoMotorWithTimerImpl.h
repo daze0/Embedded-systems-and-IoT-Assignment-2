@@ -9,13 +9,11 @@ class ServoMotorWithTimerImpl : AbstractServoMotor, ServoMotorWithTimer{
 
 public:  
   ServoMotorWithTimerImpl(ServoMotor* motor);
-  void setupTimer(int Tmaking);
+  void setupTimer(int Tmaking, void (*isr)());
   void startTimer();
-
-private:
-  void motorTick();
+  void stopTimer();
   void motorReset();
-  int currentPosition;
+  ServoMotor* getServoMotor();
 };
 
 #endif

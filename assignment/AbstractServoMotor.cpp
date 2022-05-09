@@ -20,3 +20,7 @@ void AbstractServoMotor::setPosition(int angle){
 int AbstractServoMotor::readPosition(){
   return this->motor->readPosition();    
 }
+
+bool AbstractServoMotor::isAttached() {
+  return this->motor->isAttached();
+}

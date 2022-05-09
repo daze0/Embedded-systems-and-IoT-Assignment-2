@@ -8,39 +8,29 @@
 const int maxAngle = 180;
 
 
-ServoMotorWithTimerImpl::ServoMotorWithTimerImpl(ServoMotor* motor) : AbstractServoMotor(motor){
-  
+ServoMotorWithTimerImpl::ServoMotorWithTimerImpl(ServoMotor* motor) : AbstractServoMotor(motor) {
   this->motor = motor;
 }
 
-void ServoMotorWithTimerImpl::motorTick(){
-  
-  if(!this->motor->isAttached()){
-    motor->on();
-  }
-  motor->setPosition(this->currentPosition);
-  this->currentPosition++;
-  if(motor->readPosition()==MAX_PULSE){
-    Timer1.stop();  
-    this->motorReset();      
-  }
-}
-
-void ServoMotorWithTimerImpl::setupTimer(int Tmaking){
-                
+void ServoMotorWithTimerImpl::setupTimer(int Tmaking, void (*isr)()) { 
   long period = ((long) Tmaking / maxAngle) * SEC_TO_USEC;
   Timer1.initialize(period);
-  Timer1.attachInterrupt( &motorTick );
+  Timer1.attachInterrupt(isr);
 }
 
-void ServoMotorWithTimerImpl::startTimer(){
-  
+void ServoMotorWithTimerImpl::startTimer() {
   Timer1.start();  
 }
 
-void ServoMotorWithTimerImpl::motorReset(){
+void ServoMotorWithTimerImpl::stopTimer() {
+  Timer1.stop();
+}
 
-  this->currentPosition = 0;
-  this->motor->setPosition(this->currentPosition);
+void ServoMotorWithTimerImpl::motorReset() {
+  this->motor->setPosition(0);
   this->motor->off();
+}
+
+ServoMotor* ServoMotorWithTimerImpl::getServoMotor() {
+  return this->motor;
 }

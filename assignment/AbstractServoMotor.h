@@ -3,7 +3,7 @@
 
 #include "ServoMotor.h"
 
-class AbstractServoMotor: public ServoMotor{
+class AbstractServoMotor: public ServoMotor {
 
 public:
   AbstractServoMotor(ServoMotor* motor);
@@ -11,6 +11,7 @@ public:
   void off();
   void setPosition(int angle);
   int readPosition();
+  bool isAttached();
 
 protected:
   ServoMotor* motor;
