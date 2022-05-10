@@ -8,7 +8,7 @@
 
 class SelfTestTask: Task {
 public:
-  SelfTestTask(int tmpPin, int servoPin, int rsLCDPin, int enableLCDPin, int d4LCDPin, int d5LCDPin, int d6LCDPin, int d7LCDPin);
+  SelfTestTask(Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen);
   void init(int period);
   void tick();
   bool updateAndCheckTime(int basePeriod);

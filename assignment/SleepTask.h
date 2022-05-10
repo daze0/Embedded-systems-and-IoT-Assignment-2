@@ -6,7 +6,7 @@
 
 class SleepTask {
 public:
-  SleepTask(int pirPin);
+  SleepTask(Sensor* pirSensor);
   void init(int period);
   bool updateAndCheckTime(int basePeriod);
   bool isActive();
