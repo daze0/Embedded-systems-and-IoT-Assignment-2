@@ -4,7 +4,7 @@
 #include "Task.h"
 #include "Sensor.h"
 
-class SleepTask {
+class SleepTask: Task {
 public:
   SleepTask(Sensor* pirSensor);
   void init(int period);

@@ -5,7 +5,7 @@
 
 class Task {
 public:
-  void init(int period);
+  virtual void init(int period);
   virtual void tick() = 0;
   bool updateAndCheckTime(int basePeriod);
   bool isActive();

@@ -6,7 +6,7 @@
 #include "Screen.h"
 #include "ServoMotor.h"
 
-class MakeProductTask {
+class MakeProductTask: Task {
 public:
   MakeProductTask(int sonarPin, int rsLCDPin, int enableLCDPin, int d4LCDPin, int d5LCDPin, int d6LCDPin, int d7LCDPin, int motorPin);
   void init(int period);
