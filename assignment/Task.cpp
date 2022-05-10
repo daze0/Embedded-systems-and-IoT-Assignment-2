@@ -1,5 +1,9 @@
 #include "Task.h"
 
+Task::Task(SmartCoffeeMachine* machine) {
+  this->machine = machine;
+}
+
 void Task::init(int period) {
   this->myPeriod = period;
 }
@@ -20,4 +24,8 @@ bool Task::isActive() {
 
 void Task::setActive(bool active) {
   this->active = active;
+}
+
+SmartCoffeeMachine* Task::getMachine() {
+  return this->machine;
 }

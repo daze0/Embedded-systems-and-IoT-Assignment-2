@@ -8,7 +8,7 @@
 
 class ChooseProductTask: Task {
 public:
-  ChooseProductTask(Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar);
+  ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar);
   void init(int period);
   void tick();
   ~ChooseProductTask();

@@ -6,7 +6,7 @@
 
 class InitializeTask: Task {
 public:
-  InitializeTask(Sensor* pirSensor);
+  InitializeTask(SmartCoffeeMachine* machine, Sensor* pirSensor);
   void init(int period);
   void tick();
 private:

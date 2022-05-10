@@ -6,7 +6,7 @@
 
 class SleepTask: Task {
 public:
-  SleepTask(Sensor* pirSensor);
+  SleepTask(SmartCoffeeMachine* machine, Sensor* pirSensor);
   void init(int period);
   ~SleepTask();
 private:

@@ -8,7 +8,7 @@
 
 class SelfTestTask: Task {
 public:
-  SelfTestTask(Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen);
+  SelfTestTask(SmartCoffeeMachine* machine, Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen);
   void init(int period);
   void tick();
   ~SelfTestTask();
