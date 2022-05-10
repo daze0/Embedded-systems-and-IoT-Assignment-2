@@ -8,7 +8,7 @@
 
 class ChooseProductTask: Task {
 public:
-  ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar);
+  ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, LCDScreen* screenLCD);
   void init(int period);
   void tick();
   ~ChooseProductTask();
@@ -18,6 +18,7 @@ private:
   Button* downButton;
   Button* makeButton;
   Sensor* potSugar;    
+  LCDScreen* screen;
 };
 
 #endif
