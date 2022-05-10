@@ -8,7 +8,7 @@ class SleepTask: Task {
 public:
   SleepTask(SmartCoffeeMachine* machine, Sensor* pirSensor);
   void init(int period);
-  ~SleepTask();
+  void tick();
 private:
   enum {SL0, SL1, SL2, SL3} state;
   Sensor* pir;

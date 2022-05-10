@@ -11,7 +11,6 @@ public:
   ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar);
   void init(int period);
   void tick();
-  ~ChooseProductTask();
 private:
   enum {CP0, CP1, CP2, CP3, AM} state;
   Button* upButton;
