@@ -5,9 +5,10 @@
 #include "Button.h"
 #include "Sensor.h"
 
+
 class ChooseProductTask: Task {
 public:
-  ChooseProductTask(int upBtnPin, int downBtnPin, int makeBtnPin, int potPin);
+  ChooseProductTask(Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar);
   void init(int period);
   void tick();
   ~ChooseProductTask();
