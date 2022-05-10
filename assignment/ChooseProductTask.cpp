@@ -2,32 +2,30 @@
 #include "Button.h"
 #include "Sensor.h"
 
-ChooseProductTask::ChooseProductTask(Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potPin, LCDScreen* screenLCd){
-
+ChooseProductTask::ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potPin, Screen* lcdScreen) : Task(machine) {
   this->upButton = upBtn;
   this->downButton = downBtn;
   this->makeButton = makeBtn;
   this->potSugar = potSugar;
-  this->screen = screenLCD;
+  this->lcdScreen = lcdScreen;
 }
 
-ChooseProductTask::init(int period){
-
+void ChooseProductTask::init(int period) {
   Task::init(period);
   this->state = CP0;
 }
 
-ChooseProductTask::tick(){
-
+void ChooseProductTask::tick() {
   switch(this->state){
-    case CPO:
+    case CP0:
       this->getMachine()->setMake(false);      
-      if(this->getMachine()->isReady()){
+      if(this->getMachine()->isReady()) {
         this->state = CP1;
       }
       break;
     case CP1:
-      if(this->upButton->isPressed())      
-        
+      if(this->upButton->isPressed()) {
+
+      }    
   }
 }

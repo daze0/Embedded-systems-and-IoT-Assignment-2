@@ -4,11 +4,11 @@
 #include "Task.h"
 #include "Button.h"
 #include "Sensor.h"
-
+#include "Screen.h"
 
 class ChooseProductTask: Task {
 public:
-  ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, LCDScreen* screenLCD);
+  ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, Screen* screenLCD);
   void init(int period);
   void tick();
 private:
@@ -17,7 +17,7 @@ private:
   Button* downButton;
   Button* makeButton;
   Sensor* potSugar;    
-  LCDScreen* screen;
+  Screen* lcdScreen;
 };
 
 #endif
