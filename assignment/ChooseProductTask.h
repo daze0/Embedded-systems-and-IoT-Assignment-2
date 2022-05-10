@@ -5,14 +5,11 @@
 #include "Button.h"
 #include "Sensor.h"
 
-class ChooseProductTask {
+class ChooseProductTask: Task{
 public:
-  ChooseProductTask(int upBtnPin, int downBtnPin, int makeBtnPin, int potPin);
+  ChooseProductTask(Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar);
   void init(int period);
   void tick();
-  bool updateAndCheckTime(int basePeriod);
-  bool isActive();
-  void setActive(bool active);
   ~ChooseProductTask();
 private:
   enum {CP0, CP1, CP2, CP3, AM} state;
