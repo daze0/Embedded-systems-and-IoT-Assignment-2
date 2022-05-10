@@ -1,6 +1,15 @@
 #include "SmartCoffeeMachine.h"
 #define N_MAX 5
 
+SmartCoffeeMachine::SmartCoffeeMachine() {
+  this->coffee = N_MAX;
+  this->tea = N_MAX;
+  this->chocolate = N_MAX;
+  this->sugar = N_MAX;
+  this->ready = false;
+  this->make = false;
+}
+
 bool SmartCoffeeMachine::productsAvailable() {
   return (this->coffee == 0) && (this->tea == 0) && (this->chocolate == 0);
 }

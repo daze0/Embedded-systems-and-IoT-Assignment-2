@@ -3,6 +3,7 @@
 
 class SmartCoffeeMachine {
 public:
+  SmartCoffeeMachine();
   bool productsAvailable();
   bool isReady();
   bool isMaking();
