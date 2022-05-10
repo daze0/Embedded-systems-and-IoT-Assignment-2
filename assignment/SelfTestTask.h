@@ -11,9 +11,6 @@ public:
   SelfTestTask(Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen);
   void init(int period);
   void tick();
-  bool updateAndCheckTime(int basePeriod);
-  bool isActive();
-  void setActive(bool active);
   ~SelfTestTask();
 private:
   enum {ST0, ST1, ST2, ST3, ST4, ST5, AM} state;
