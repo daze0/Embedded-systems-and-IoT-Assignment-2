@@ -5,7 +5,8 @@
 #include "Button.h"
 #include "Sensor.h"
 
-class ChooseProductTask: Task{
+
+class ChooseProductTask: Task {
 public:
   ChooseProductTask(Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar);
   void init(int period);
