@@ -4,7 +4,7 @@
 #include "Task.h"
 #include "Screen.h"
 
-class InitializeTask: Task {
+class InitializeTask: public Task {
 public:
   InitializeTask(SmartCoffeeMachine* machine, Screen* lcdScreen);
   void init(int period);

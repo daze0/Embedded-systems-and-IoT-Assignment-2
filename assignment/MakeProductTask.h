@@ -6,7 +6,7 @@
 #include "Screen.h"
 #include "ServoMotor.h"
 
-class MakeProductTask: Task {
+class MakeProductTask: public Task {
 public:
   MakeProductTask(SmartCoffeeMachine* machine, Sensor* sonarSensor, Screen* lcdScreen, ServoMotor* motor);
   void init(int period);

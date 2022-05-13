@@ -6,7 +6,7 @@
 #include "ServoMotor.h"
 #include "Screen.h"
 
-class SelfTestTask: Task {
+class SelfTestTask: public Task {
 public:
   SelfTestTask(SmartCoffeeMachine* machine, Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen);
   void init(int period);

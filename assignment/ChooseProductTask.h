@@ -6,7 +6,7 @@
 #include "Sensor.h"
 #include "Screen.h"
 
-class ChooseProductTask: Task {
+class ChooseProductTask: public Task {
 public:
   ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, Screen* screenLCD);
   void init(int period);
