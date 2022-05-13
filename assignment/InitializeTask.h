@@ -6,12 +6,13 @@
 
 class InitializeTask: Task {
 public:
-  InitializeTask(SmartCoffeeMachine* machine, Sensor* pirSensor);
+  InitializeTask(SmartCoffeeMachine* machine, Screen* lcdScreen);
   void init(int period);
   void tick();
 private:
   enum {I0, I1} state;
   Screen* lcdScreen;
+  int time0;
 };
 
 #endif
