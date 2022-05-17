@@ -1,17 +1,20 @@
 #include "Scheduler.h"
-#include <MsTimer2.h>
+//#include <TimerMs.h>
+#include <TimerOne.h>
 
+//TimerMs timer;
 volatile bool timerFlag;
 
-void timerHandler(void) {
+void timerHandler() {
   timerFlag = true;
 }
 
 void Scheduler::init(int basePeriod) {
   this->basePeriod = basePeriod;
   timerFlag = false;
-  long period = 10001*this->basePeriod;
-  MsTimer2::set(period, timerHandler);
+  long period = 1000l*this->basePeriod;
+  Timer1.initialize(period);
+  Timer1.attachInterrupt(timerHandler);
   this->nTasks = 0;
 }
 
@@ -26,11 +29,16 @@ bool Scheduler::addTask(Task* task) {
 }
 
 void Scheduler::schedule() {
+  int time0 = millis();
   while (!timerFlag) {}
+  Serial.println("Tick");
   timerFlag = false;
   for(int i = 0; i < this->nTasks; i++) {
     if (this->taskList[i]->isActive() && this->taskList[i]->updateAndCheckTime(this->basePeriod)) {     //IsActive() possibly useless
+      Serial.println("Executing task" + String(i));
       this->taskList[i]->tick();
+      int elapsed = millis() - time0;
+      Serial.println("elapsed t: " + String(elapsed));
     }
   }
 }

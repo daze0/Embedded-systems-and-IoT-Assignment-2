@@ -12,7 +12,6 @@ public:
 private:
   enum {I0, I1} state;
   Screen* lcdScreen;
-  int time0;
 };
 
 #endif

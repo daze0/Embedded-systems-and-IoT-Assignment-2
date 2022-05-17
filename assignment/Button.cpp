@@ -3,10 +3,10 @@
 Button::Button(){
 } 
   
-void Button::updateSyncTime(long time){
+void Button::updateSyncTime(long time) {
 	lastTimeSync = time;
 }
 
-long Button::getLastSyncTime(){
+long Button::getLastSyncTime() {
 	return lastTimeSync;
 }

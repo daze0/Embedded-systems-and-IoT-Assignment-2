@@ -14,3 +14,7 @@ void LCDScreen::print(char* msg, int row, int col) {
   this->lcd->setCursor(col, row);
   this->lcd->print(msg);
 }
+
+void LCDScreen::clear() {
+  this->lcd->clear();
+}

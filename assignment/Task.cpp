@@ -6,6 +6,7 @@ Task::Task(SmartCoffeeMachine* machine) {
 
 void Task::init(int period) {
   this->myPeriod = period;
+  this->timeElapsed = 0;
 }
 
 bool Task::updateAndCheckTime(int basePeriod) {

@@ -3,7 +3,6 @@
 
 #include "ServoMotor.h"
 class ServoMotorWithTimer {
-
 public:
   virtual void setupTimer(int Tmaking, void (*isr)());
   virtual void startTimer();
