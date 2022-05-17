@@ -12,6 +12,8 @@ public:
 private:
   enum {SL0, SL1, SL2, SL3} state;
   Sensor* pir;
+  int elapsedTime;
+  bool detected;
 };
 
 #endif

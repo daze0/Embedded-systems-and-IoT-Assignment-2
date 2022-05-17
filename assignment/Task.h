@@ -13,8 +13,8 @@ public:
   void setActive(bool active);
 protected:
   SmartCoffeeMachine* getMachine();
-private:
   int myPeriod;
+private:
   int timeElapsed;
   bool active;
   SmartCoffeeMachine* machine;

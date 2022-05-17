@@ -20,6 +20,7 @@ void InitializeTask::tick() {
       this->getMachine()->setReady(true);
       this->lcdScreen->clear();
       this->lcdScreen->print("Ready.", 2, 1);
+      this->setActive(false);
       break;
   }
 }
