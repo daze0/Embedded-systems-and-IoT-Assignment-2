@@ -13,8 +13,8 @@
 #define LCD_D4 5
 #define LCD_D5 4
 #define LCD_D6 3
-#define LCD_D7 2
-#define PIR_PIN 7
+#define LCD_D7 6
+#define PIR_PIN 2
 
 /* MCD between each task's period */
 #define SCHEDULER_PERIOD 250

@@ -10,7 +10,8 @@ public:
   void init(int period);
   void tick();
 private:
-  enum {SL0, SL1, SL2, SL3} state;
+  void goToSleep();
+  enum {SL0, SL1} state;
   Sensor* pir;
   int elapsedTime;
   bool detected;

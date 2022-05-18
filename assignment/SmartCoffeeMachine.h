@@ -15,8 +15,8 @@ private:
   int tea;
   int chocolate;
   int sugar;
-  bool ready;
-  bool make;
+  volatile bool ready;
+  volatile bool make;
 };
 
 #endif

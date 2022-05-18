@@ -29,16 +29,12 @@ bool Scheduler::addTask(Task* task) {
 }
 
 void Scheduler::schedule() {
-  int time0 = millis();
   while (!timerFlag) {}
-  Serial.println("Tick");
   timerFlag = false;
   for(int i = 0; i < this->nTasks; i++) {
     if (this->taskList[i]->isActive() && this->taskList[i]->updateAndCheckTime(this->basePeriod)) {     //IsActive() possibly useless
-      Serial.println("Executing task" + String(i));
+      //Serial.println("Executing task" + String(i));
       this->taskList[i]->tick();
-      int elapsed = millis() - time0;
-      Serial.println("elapsed t: " + String(elapsed));
     }
   }
 }
