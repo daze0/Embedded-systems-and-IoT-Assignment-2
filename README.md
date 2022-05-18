@@ -1,5 +1,5 @@
 # Embedded-systems-and-IoT-Assignment-2
-First assignment for the course <i>"Embedded systems and Internet of Things"</i> at <i>UNIBO Ingegneria e Scienze Informatiche</i>. <br /><br />
+Second assignment for the course <i>"Embedded systems and Internet of Things"</i> at <i>UNIBO Ingegneria e Scienze Informatiche</i>. <br /><br />
 <b>Project Group</b>:<br />
 <ul>
   <li>Baiocchi Leon (<a href="mailto:leon.baiocchi@studio.unibo.it">leon.baiocchi@studio.unibo.it</a>)</li>
