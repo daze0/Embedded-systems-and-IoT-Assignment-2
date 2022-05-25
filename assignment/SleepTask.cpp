@@ -4,8 +4,6 @@
 
 #define T_IDLE 10000 //60000
 
-bool detection = false;
-
 SleepTask::SleepTask(SmartCoffeeMachine* machine, Sensor* pirSensor) : Task(machine) {
   this->pir = pirSensor;
 }
@@ -14,14 +12,7 @@ void SleepTask::init(int period) {
   Task::init(period);
   this->elapsedTime = 0;
   this->state = SL0;
-  this->detected = false;  // is it useful?
-}
-
-void wakeUp() {
-  sleep_disable();
-  detachInterrupt(0);
-  detection = true;
-  Serial.println("Wake up");
+  this->detected = false;
 }
 
 void SleepTask::tick() {
@@ -39,16 +30,18 @@ void SleepTask::tick() {
           Serial.println("SL0: T_IDLE expired, going to sleep.");
           this->elapsedTime = 0;
           this->state = SL1;
-          this->detected = false;
           this->getMachine()->setReady(false);
           this->goToSleep();
         }
       }
       break;
     case SL1:
-      Serial.println("SL1: sleeping");
-      this->detected = detection;
+      double value = this->pir->readValue();
+      this->detected = (value == 1.0) ? true : false;
+      Serial.println("SL1: sleeping; detected="+String(this->detected));
       if (this->detected) {
+        sleep_disable();
+        Serial.println("Wake up");
         Serial.println("SL1: just woken up");
         this->getMachine()->setReady(true);
         this->elapsedTime = 0;
@@ -58,10 +51,10 @@ void SleepTask::tick() {
   }
 }
 
+
 void SleepTask::goToSleep() {
   Serial.println("Going to Sleep");
   set_sleep_mode(SLEEP_MODE_IDLE);
   sleep_enable();
-  attachInterrupt(0, wakeUp, HIGH);
   sleep_mode();
 }

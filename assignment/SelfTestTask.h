@@ -17,6 +17,7 @@ private:
   Sensor* temperatureSensor;
   ServoMotor* motor;
   Screen* lcdScreen;
+  int rotationCounter;
 };
 
 #endif
