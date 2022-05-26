@@ -13,11 +13,11 @@ public:
   void tick();
   ~SelfTestTask();
 private:
-  enum {ST0, ST1, ST2, ST3, ST4, ST5, AM} state;
+  enum {ST0, ST1, ST2, ST3, ST4, AM} state;
   Sensor* temperatureSensor;
   ServoMotor* motor;
   Screen* lcdScreen;
-  int rotationCounter;
+  int elapsedTime;
 };
 
 #endif

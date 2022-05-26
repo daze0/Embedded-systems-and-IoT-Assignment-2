@@ -10,6 +10,8 @@ public:
   void setReady(bool ready);
   void setMake(bool make);
   void refill();
+  void setAssistance(bool assistance);
+  bool IsInAssistanceMode();
 private:
   int coffee;
   int tea;
@@ -17,6 +19,7 @@ private:
   int sugar;
   volatile bool ready;
   volatile bool make;
+  volatile bool assistance;
 };
 
 #endif

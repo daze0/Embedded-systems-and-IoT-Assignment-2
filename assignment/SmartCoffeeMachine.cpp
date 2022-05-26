@@ -8,6 +8,7 @@ SmartCoffeeMachine::SmartCoffeeMachine() {
   this->sugar = N_MAX;
   this->ready = false;
   this->make = false;
+  this->assistance = false;
 }
 
 bool SmartCoffeeMachine::productsAvailable() {
@@ -34,4 +35,12 @@ void SmartCoffeeMachine::refill() {
   this->coffee = N_MAX;
   this->tea = N_MAX;
   this->chocolate = N_MAX;
+}
+
+void SmartCoffeeMachine::setAssistance(bool assistance) {
+  this->assistance = assistance;
+}
+
+bool SmartCoffeeMachine::IsInAssistanceMode() {
+  return this->assistance;
 }

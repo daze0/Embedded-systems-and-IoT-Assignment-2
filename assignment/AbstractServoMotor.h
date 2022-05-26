@@ -7,11 +7,11 @@ class AbstractServoMotor: public ServoMotor {
 
 public:
   AbstractServoMotor(ServoMotor* motor);
-  void on();
-  void off();
-  void setPosition(int angle);
-  int readPosition();
-  bool isAttached();
+  virtual void on();
+  virtual void off();
+  virtual void setPosition(int angle);
+  virtual int readPosition();
+  virtual bool isAttached();
 
 protected:
   ServoMotor* motor;
