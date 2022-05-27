@@ -48,14 +48,14 @@ void setup() {
   sched.init(SCHEDULER_PERIOD);
   SmartCoffeeMachine* coffeeMachine = new SmartCoffeeMachine();
   Screen* lcd = new LCDScreen(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-  Sensor* pir = new PirSensor(PIR_PIN);
+  //Sensor* pir = new PirSensor(PIR_PIN);
   ServoMotor* motor = new Servo2MotorImpl(MOTOR_PIN);
   Sensor* tempSensor = new TemperatureSensor(TMP_PIN);
   Task* t0 = new InitializeTask(coffeeMachine, lcd);
-  Task* t1 = new SleepTask(coffeeMachine, pir);
+  //Task* t1 = new SleepTask(coffeeMachine, pir);
   Task* t2 = new SelfTestTask(coffeeMachine, tempSensor, motor, lcd);
   t0->init(INITIALIZE_TASK_PERIOD);
-  t1->init(SLEEP_TASK_PERIOD);
+  //t1->init(SLEEP_TASK_PERIOD);
   t2->init(SELF_TEST_TASK_PERIOD);
   sched.addTask(t0);
   //sched.addTask(t1);

@@ -3,6 +3,7 @@
 #define T_CHECK 15000
 
 int currPos = 0;
+double tempValue;
 
 SelfTestTask::SelfTestTask(SmartCoffeeMachine* machine, Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen) : Task(machine) {
   this->temperatureSensor = tmpSensor;
@@ -42,9 +43,11 @@ void SelfTestTask::tick() {
       break;
     case ST2:
       Serial.println("ST2");
-      //currPos = this->motor->readPosition();
+      {
+        //currPos = this->motor->readPosition();
+      }
       Serial.println("currPos: " + String(currPos));
-      if (currPos < 180) {
+      if (currPos < 10) {
         this->motor->setPosition(currPos++);
       } else {
         this->state = ST3;
@@ -52,7 +55,9 @@ void SelfTestTask::tick() {
       break;
     case ST3:
       Serial.println("ST3");
-      //currPos = this->motor->readPosition();
+      {
+        //currPos = this->motor->readPosition();
+      }
       if (currPos > 0) {
         this->motor->setPosition(currPos--);
       } else {
@@ -61,7 +66,7 @@ void SelfTestTask::tick() {
       break;
     case ST4:
       Serial.println("ST4");
-      double tempValue = this->temperatureSensor->readValue();
+      tempValue = this->temperatureSensor->readValue();
       if (tempValue < 17 || tempValue > 24) {
         this->state = AM;
         this->getMachine()->setAssistance(true);
