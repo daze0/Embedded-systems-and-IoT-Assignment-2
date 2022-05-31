@@ -8,12 +8,12 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import smartCoffeeMachineManager.view.events.MonitorModeEvent;
 import smartCoffeeMachineManager.view.events.RecoverEvent;
 import smartCoffeeMachineManager.view.events.RefillEvent;
-import smartCoffeeMachineManager.view.events.ViewEvents;
 
 public class ViewImpl implements View {
 	
@@ -34,6 +34,10 @@ public class ViewImpl implements View {
 
 	@Override
 	public void init() {
+		/*
+		 * Various graphic components are being defined here.
+		 * In top-down order, kinda.
+		 */
 		final JPanel wrapperPanel = new JPanel(new BorderLayout());
 		final JPanel btnPanel = new JPanel(new GridLayout(1, 3));
 		final CardLayout cardLayout = new CardLayout();
@@ -41,12 +45,25 @@ public class ViewImpl implements View {
 		final JButton monitorBtn = new JButton("Monitor");
 		final JButton refillBtn = new JButton("Refill");
 		final JButton recoverBtn = new JButton("Recover");
-		final JPanel monitorPanel = new JPanel(new FlowLayout());
-		monitorPanel.setBackground(Color.BLUE);
+		/*
+		 * These are the panels within the CardLayout, notice that they all
+		 * co-exist, one of them is visible the others are hidden.
+		 */
+		final JPanel monitorPanel = new JPanel(new GridLayout(3, 1));
+		monitorPanel.setBackground(Color.CYAN);
+		final JLabel modeLabel = new JLabel("Mode: ");
+		final JLabel productsLabel = new JLabel("Products: ");
+		final JLabel nTestsLabel = new JLabel("n of Self-Tests: ");
+		monitorPanel.add(modeLabel);
+		monitorPanel.add(productsLabel);
+		monitorPanel.add(nTestsLabel);
 		final JPanel refillPanel = new JPanel(new FlowLayout());
 		refillPanel.setBackground(Color.GREEN);
 		final JPanel recoverPanel = new JPanel(new FlowLayout());
 		recoverPanel.setBackground(Color.MAGENTA);
+		/*
+		 * Buttons' action listeners declared/defined down here.
+		 */
 		monitorBtn.addActionListener(l -> {
 			this.controller.notifyEvent(new MonitorModeEvent());
 			cardLayout.show(cardPanel, "Monitor");
@@ -59,33 +76,43 @@ public class ViewImpl implements View {
 			this.controller.notifyEvent(new RecoverEvent());
 			cardLayout.show(cardPanel, "Recover");
 		});
+		/*
+		 * In the end everything is packed up into the main frame
+		 * which is then set to visible.
+		 */
 		btnPanel.add(monitorBtn);
-		btnPanel.add(refillBtn);
+		btnPanel.add(refillBtn);	// Adding btns to btnPanel
 		btnPanel.add(recoverBtn);
 		cardPanel.add(monitorPanel, "Monitor");
-		cardPanel.add(refillPanel, "Refill");
+		cardPanel.add(refillPanel, "Refill");	// Adding panels to cardPanel
 		cardPanel.add(recoverPanel, "Recover");
-		wrapperPanel.add(cardPanel, BorderLayout.CENTER);
-		wrapperPanel.add(btnPanel, BorderLayout.SOUTH);
+		wrapperPanel.add(cardPanel, BorderLayout.CENTER); // wrapper/main panel wrapped up around the other two: btnPanel, cardPanel
+		wrapperPanel.add(btnPanel, BorderLayout.SOUTH);		
 		this.frame.getContentPane().add(wrapperPanel);
 		this.frame.setVisible(true);
 	}
 
 	@Override
-	public void showMonitorMode() {
-		// TODO Auto-generated method stub
-		controller.notifyEvent(new MonitorModeEvent());
+	public void showMonitorMode(/*final String mode, final String productsAvailable, final int nSelfTests*/) {
+		/* 
+		 * TODO: maybe try to update monitor panel labels 
+		 * 		 with real-time values(computed when monitor button is clicked).
+		 * 		 Possible problem: cannot access labels.
+		 * 
+		 * ^same in below methods (?)
+		 */
+		
 	}
 
 	@Override
 	public void showRefill() {
-		// TODO Auto-generated method stub
+		// TODO ^
 		controller.notifyEvent(new RefillEvent());
 	}
 
 	@Override
 	public void showRecover() {
-		// TODO Auto-generated method stub
+		// TODO ^^
 		controller.notifyEvent(new RecoverEvent());
 	}
 
