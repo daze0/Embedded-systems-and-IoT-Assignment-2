@@ -1,4 +1,4 @@
-package smartCoffeeMachineManager.core;
+package smartCoffeeMachineManager.view.events;
 
 public enum ViewEvents {
 	MONITOR_EVENT,

@@ -1,4 +1,4 @@
-package smartCoffeeMachineManager.core;
+package smartCoffeeMachineManager.view.events;
 
 /**
  * Represents a contract for view related

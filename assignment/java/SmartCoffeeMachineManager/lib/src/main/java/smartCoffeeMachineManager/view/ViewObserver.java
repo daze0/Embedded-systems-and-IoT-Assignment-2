@@ -1,4 +1,7 @@
-package smartCoffeeMachineManager.core;
+package smartCoffeeMachineManager.view;
+
+import smartCoffeeMachineManager.core.Controller;
+import smartCoffeeMachineManager.view.events.ViewEvent;
 
 /**
  * Single method interface needed to represent

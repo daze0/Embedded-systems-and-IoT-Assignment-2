@@ -1,4 +1,4 @@
-package smartCoffeeMachineManager.core;
+package smartCoffeeMachineManager.view;
 
 /**
  * Exposes the view contract of

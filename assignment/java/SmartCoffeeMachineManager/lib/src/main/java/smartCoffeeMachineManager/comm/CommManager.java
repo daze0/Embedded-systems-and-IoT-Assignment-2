@@ -2,8 +2,8 @@ package smartCoffeeMachineManager.comm;
 
 public interface CommManager {
 	String getNextMsg();
-	void setNextMsg();
+	void setNextMsg(String msg);
 	void sendMsg();
-	String receiveMsg();
+	String receiveMsg() throws InterruptedException;
 	boolean isMsgAvailable();
 }

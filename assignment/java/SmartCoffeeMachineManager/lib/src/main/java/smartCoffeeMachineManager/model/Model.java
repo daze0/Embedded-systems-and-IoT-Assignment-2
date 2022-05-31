@@ -1,4 +1,4 @@
-package smartCoffeeMachineManager.core;
+package smartCoffeeMachineManager.model;
 
 /**
  * Responsible of the model contract 

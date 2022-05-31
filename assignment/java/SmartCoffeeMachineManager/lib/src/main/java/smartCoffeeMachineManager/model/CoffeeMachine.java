@@ -1,9 +1,11 @@
 package smartCoffeeMachineManager.model;
 
-import java.util.Map;
+import java.util.Set;
 
 public interface CoffeeMachine {
 	Modalities getMode();
-	Map<Product, Integer> getProducts();
+	void setMode(Modalities mode);
+	Set<Product> getProducts();
 	int getNSelfTests();
+	void setNSelfTests(int n);
 }

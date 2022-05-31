@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import smartCoffeeMachineManager.comm.CommManager;
+import smartCoffeeMachineManager.model.Model;
+import smartCoffeeMachineManager.view.View;
+import smartCoffeeMachineManager.view.ViewObserver;
+import smartCoffeeMachineManager.view.events.ViewEvent;
+import smartCoffeeMachineManager.view.events.ViewEvents;
 
 public class Controller implements ViewObserver {
 
