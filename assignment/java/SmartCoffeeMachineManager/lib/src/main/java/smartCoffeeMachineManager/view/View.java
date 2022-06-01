@@ -13,7 +13,7 @@ public interface View {
 	 * Shows the monitor mode, all the physical machine's 
 	 * attributes are exposed.
 	 */
-	void showMonitorMode();
+	void showMonitorMode(final String mode, final String productsAvailable, final int nSelfTests);
 	/**
 	 * Shows the refill panel that generates a message for
 	 * the physical machine.

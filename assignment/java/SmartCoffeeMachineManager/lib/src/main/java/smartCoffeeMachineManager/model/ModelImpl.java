@@ -117,4 +117,14 @@ public class ModelImpl implements Model {
 		return false;
 	}
 
+	@Override
+	public Modalities getMode() {
+		return this.machine.getMode();
+	}
+
+	@Override
+	public int getNSelfTests() {
+		return this.machine.getNSelfTests();
+	}
+
 }

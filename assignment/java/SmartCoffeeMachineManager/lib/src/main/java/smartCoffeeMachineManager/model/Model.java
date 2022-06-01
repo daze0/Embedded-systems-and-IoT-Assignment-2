@@ -73,4 +73,16 @@ public interface Model {
 	 * @return true if recover is needed, false if not.
 	 */
 	boolean needRecover();
+	/**
+	 * Retrieves current mode.
+	 * 
+	 * @return current modality, check {@link Modalities} for more infos about modes.
+	 */
+	Modalities getMode();
+	/**
+	 * Returns n self test executed.
+	 * 
+	 * @return the number of self-tests executed by the smart coffee machine. 
+	 */
+	int getNSelfTests();
 }

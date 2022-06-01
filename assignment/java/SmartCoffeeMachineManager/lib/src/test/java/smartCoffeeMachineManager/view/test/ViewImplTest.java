@@ -10,8 +10,7 @@ public class ViewImplTest {
 
 	@Test
 	public void test() {
-		final View view = new ViewImpl("title", new Controller());
-		view.init();
+		
 	}
 
 }

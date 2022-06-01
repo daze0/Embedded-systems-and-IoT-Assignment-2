@@ -10,26 +10,35 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+import smartCoffeeMachineManager.logging.AppLogger;
 import smartCoffeeMachineManager.view.events.MonitorModeEvent;
 import smartCoffeeMachineManager.view.events.RecoverEvent;
 import smartCoffeeMachineManager.view.events.RefillEvent;
 
 public class ViewImpl implements View {
 	
-	private static final int SIZE = 300;
-	private final String title;
+	private static final int SIZE_X = 1500;
+	private static final int SIZE_Y = 500;
+	private static final String TITLE = "SmartCoffeeMachineManager";
+	
 	private final ViewObserver controller;
 	private final JFrame frame;
+	private final JLabel modeLabel;
+	private final JLabel productsAvailableLabel;
+	private final JLabel nTestsLabel;
 	
-	public ViewImpl(final String title, final ViewObserver observer) {
-		this.title = title;
+	public ViewImpl(final ViewObserver observer) {
 		this.controller = observer;
 		this.frame = new JFrame();
-		this.frame.setTitle(this.title);
+		this.frame.setTitle(ViewImpl.TITLE);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setResizable(false);
-		this.frame.setSize(ViewImpl.SIZE, ViewImpl.SIZE);
+		this.frame.setSize(ViewImpl.SIZE_X, ViewImpl.SIZE_Y);
+		this.modeLabel = new JLabel();
+		this.productsAvailableLabel = new JLabel();
+		this.nTestsLabel = new JLabel();
 	}
 
 	@Override
@@ -51,12 +60,12 @@ public class ViewImpl implements View {
 		 */
 		final JPanel monitorPanel = new JPanel(new GridLayout(3, 1));
 		monitorPanel.setBackground(Color.CYAN);
-		final JLabel modeLabel = new JLabel("Mode: ");
-		final JLabel productsLabel = new JLabel("Products: ");
-		final JLabel nTestsLabel = new JLabel("n of Self-Tests: ");
-		monitorPanel.add(modeLabel);
-		monitorPanel.add(productsLabel);
-		monitorPanel.add(nTestsLabel);
+		this.modeLabel.setText("Mode: ");
+		this.productsAvailableLabel.setText("Products available: ");
+		this.nTestsLabel.setText("n of Self-Tests: ");
+		monitorPanel.add(this.modeLabel);
+		monitorPanel.add(this.productsAvailableLabel);
+		monitorPanel.add(this.nTestsLabel);
 		final JPanel refillPanel = new JPanel(new FlowLayout());
 		refillPanel.setBackground(Color.GREEN);
 		final JPanel recoverPanel = new JPanel(new FlowLayout());
@@ -67,14 +76,17 @@ public class ViewImpl implements View {
 		monitorBtn.addActionListener(l -> {
 			this.controller.notifyEvent(new MonitorModeEvent());
 			cardLayout.show(cardPanel, "Monitor");
+			AppLogger.getAppLogger().debug("Notified MonitorModeEvent and shown Monitor card panel");
 		});
 		refillBtn.addActionListener(l -> {
 			this.controller.notifyEvent(new RefillEvent());
 			cardLayout.show(cardPanel, "Refill");
+			AppLogger.getAppLogger().debug("Notified RefillEvent and shown Refill card panel");
 		});
 		recoverBtn.addActionListener(l -> {
 			this.controller.notifyEvent(new RecoverEvent());
 			cardLayout.show(cardPanel, "Recover");
+			AppLogger.getAppLogger().debug("Notified RecoverEvent and shown Recover card panel");
 		});
 		/*
 		 * In the end everything is packed up into the main frame
@@ -93,7 +105,7 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public void showMonitorMode(/*final String mode, final String productsAvailable, final int nSelfTests*/) {
+	public void showMonitorMode(final String mode, final String productsAvailable, final int nSelfTests) {
 		/* 
 		 * TODO: maybe try to update monitor panel labels 
 		 * 		 with real-time values(computed when monitor button is clicked).
@@ -101,19 +113,28 @@ public class ViewImpl implements View {
 		 * 
 		 * ^same in below methods (?)
 		 */
-		
+		AppLogger.getAppLogger().debug("Inside showMonitorMode()");
+		SwingUtilities.invokeLater(() -> {
+			this.modeLabel.setText("Mode: " + mode);
+			this.productsAvailableLabel.setText("Products available: " + productsAvailable);
+			this.nTestsLabel.setText("n of Self-Tests: " + String.valueOf(nSelfTests));
+		});
 	}
 
 	@Override
 	public void showRefill() {
-		// TODO ^
-		controller.notifyEvent(new RefillEvent());
+		AppLogger.getAppLogger().debug("Inside showRefill()");
+		SwingUtilities.invokeLater(() -> {
+			// TODO ^
+		});
 	}
 
 	@Override
 	public void showRecover() {
-		// TODO ^^
-		controller.notifyEvent(new RecoverEvent());
+		AppLogger.getAppLogger().debug("Inside showRecover()");
+		SwingUtilities.invokeLater(() -> {
+			// TODO ^^
+		});
 	}
 
 }
