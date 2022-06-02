@@ -56,11 +56,11 @@ public class Controller implements ViewObserver {
 				}
 			} else if (eventId == ViewEvents.REFILL_EVENT) {
 				if (this.view.isPresent()) {
-					this.view.get().showRefill();
+					this.view.get().showRefill(this.model.needRefill());
 				}
 			} else if (eventId == ViewEvents.RECOVER_EVENT) {
 				if (this.view.isPresent()) {
-					this.view.get().showRecover();
+					this.view.get().showRecover(this.model.needRecover());
 				}
 			}
 		}

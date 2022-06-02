@@ -28,6 +28,8 @@ public class ViewImpl implements View {
 	private final JLabel modeLabel;
 	private final JLabel productsAvailableLabel;
 	private final JLabel nTestsLabel;
+	private final JLabel refillLabel;
+	private final JLabel recoverLabel;
 	
 	public ViewImpl(final ViewObserver observer) {
 		this.controller = observer;
@@ -39,6 +41,8 @@ public class ViewImpl implements View {
 		this.modeLabel = new JLabel();
 		this.productsAvailableLabel = new JLabel();
 		this.nTestsLabel = new JLabel();
+		this.refillLabel = new JLabel();
+		this.recoverLabel = new JLabel();
 	}
 
 	@Override
@@ -68,8 +72,12 @@ public class ViewImpl implements View {
 		monitorPanel.add(this.nTestsLabel);
 		final JPanel refillPanel = new JPanel(new FlowLayout());
 		refillPanel.setBackground(Color.GREEN);
+		this.refillLabel.setText("Refill needed: ");
+		refillPanel.add(this.refillLabel);
 		final JPanel recoverPanel = new JPanel(new FlowLayout());
 		recoverPanel.setBackground(Color.MAGENTA);
+		this.recoverLabel.setText("Recover needed: ");
+		recoverPanel.add(this.recoverLabel);
 		/*
 		 * Buttons' action listeners declared/defined down here.
 		 */
@@ -106,13 +114,6 @@ public class ViewImpl implements View {
 
 	@Override
 	public void showMonitorMode(final String mode, final String productsAvailable, final int nSelfTests) {
-		/* 
-		 * TODO: maybe try to update monitor panel labels 
-		 * 		 with real-time values(computed when monitor button is clicked).
-		 * 		 Possible problem: cannot access labels.
-		 * 
-		 * ^same in below methods (?)
-		 */
 		AppLogger.getAppLogger().debug("Inside showMonitorMode()");
 		SwingUtilities.invokeLater(() -> {
 			this.modeLabel.setText("Mode: " + mode);
@@ -122,18 +123,18 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public void showRefill() {
+	public void showRefill(final boolean needRefill) {
 		AppLogger.getAppLogger().debug("Inside showRefill()");
 		SwingUtilities.invokeLater(() -> {
-			// TODO ^
+			this.refillLabel.setText("Refill needed: " + (needRefill ? "yes" : "no"));
 		});
 	}
 
 	@Override
-	public void showRecover() {
+	public void showRecover(final boolean needRecover) {
 		AppLogger.getAppLogger().debug("Inside showRecover()");
 		SwingUtilities.invokeLater(() -> {
-			// TODO ^^
+			this.recoverLabel.setText("Recover needed: " + (needRecover ? "yes" : "no"));
 		});
 	}
 

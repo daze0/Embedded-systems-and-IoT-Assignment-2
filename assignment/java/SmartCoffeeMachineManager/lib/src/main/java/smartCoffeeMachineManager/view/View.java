@@ -13,15 +13,15 @@ public interface View {
 	 * Shows the monitor mode, all the physical machine's 
 	 * attributes are exposed.
 	 */
-	void showMonitorMode(final String mode, final String productsAvailable, final int nSelfTests);
+	void showMonitorMode(String mode, String productsAvailable, int nSelfTests);
 	/**
 	 * Shows the refill panel that generates a message for
 	 * the physical machine.
 	 */
-	void showRefill();
+	void showRefill(boolean needRefill);
 	/**
 	 * Shows the recover panel that generates a resume 
 	 * message for the physical machine.
 	 */
-	void showRecover();
+	void showRecover(boolean needRecover);
 }
