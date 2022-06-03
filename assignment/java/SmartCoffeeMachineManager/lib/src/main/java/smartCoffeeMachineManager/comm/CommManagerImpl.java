@@ -39,4 +39,24 @@ public class CommManagerImpl implements CommManager {
 		return this.commChannel.isMsgAvailable();
 	}
 
+	@Override
+	public void setRefillRequest(boolean value) {
+		this.refillRequest = value;
+	}
+
+	@Override
+	public void setRecoverRequest(boolean value) {
+		this.recoverRequest = value;
+	}
+
+	@Override
+	public boolean refillNeeded() {
+		return this.refillRequest;
+	}
+
+	@Override
+	public boolean recoverNeeded() {
+		return this.recoverRequest;
+	}
+
 }

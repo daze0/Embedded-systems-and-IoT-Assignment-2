@@ -19,11 +19,13 @@ public class Controller implements ViewObserver {
 	private final Model model;
 	private Optional<View> view;
 	private final List<ViewEvent> eventQueue;
+	private final CommManager commManager;
 	
-	public Controller(final Model model) {
+	public Controller(final Model model, final CommManager commManager) {
 		this.eventQueue = new ArrayList<>(); 
 		this.model = model;
 		this.view = Optional.empty();
+		this.commManager = commManager;
 	}
 	
 	@Override
@@ -40,8 +42,7 @@ public class Controller implements ViewObserver {
 		return productsAvailable.toString();
 	}
 	
-	//NOTE: view events 
-	public void checkEvents() {
+	public void checkEvents() throws InterruptedException {
 		for (final ViewEvent e : this.eventQueue) {
 			AppLogger.getAppLogger().debug("Inside checkEvents() loop");
 			final ViewEvents eventId = e.getId();
@@ -55,6 +56,18 @@ public class Controller implements ViewObserver {
 					);
 				}
 			} else if (eventId == ViewEvents.REFILL_EVENT) {
+				if (this.commManager.refillNeeded()) {
+					this.commManager.setNextMsg("refill");
+					this.commManager.sendMsg();
+					/*
+					 *  TODO: decide if refill by monitor mode or
+					 *  		refill by message acknowledgement
+					 */
+					final String response = this.commManager.receiveMsg();
+					if (response.equals("refill-done")) {
+						this.model.refill();                    // ???
+					}
+				}
 				if (this.view.isPresent()) {
 					this.view.get().showRefill(this.model.needRefill());
 				}
@@ -67,8 +80,15 @@ public class Controller implements ViewObserver {
 		this.eventQueue.clear();
 	}
 	
-	public void handle(final CommManager m) {
-		// TODO
+	public void handleIncomingMessages() throws InterruptedException {
+		if (this.commManager.isMsgAvailable()) {
+			final String msg = this.commManager.receiveMsg();
+			if (msg == "needRefill") {
+				this.commManager.setRefillRequest(true); 
+			} else if (msg == "needRecover") {
+				this.commManager.setRecoverRequest(true); 
+			}
+		}
 	}
 	
 	public void attachView(final View view) {
