@@ -44,11 +44,10 @@ public class Controller implements ViewObserver {
 	
 	public void checkEvents() throws InterruptedException {
 		for (final ViewEvent e : this.eventQueue) {
-			AppLogger.getAppLogger().debug("Inside checkEvents() loop");
 			final ViewEvents eventId = e.getId();
 			if (eventId == ViewEvents.MONITOR_EVENT) {
+				AppLogger.getAppLogger().event("MonitorEvent");
 				if (this.view.isPresent()) {
-					AppLogger.getAppLogger().event("MonitorEvent");
 					this.view.get().showMonitorMode(
 							this.model.getMode().getName(),
 							this.computeAvailableProducts(),
@@ -56,22 +55,22 @@ public class Controller implements ViewObserver {
 					);
 				}
 			} else if (eventId == ViewEvents.REFILL_EVENT) {
+				AppLogger.getAppLogger().event("RefillEvent");
 				if (this.commManager.refillNeeded()) {
 					this.commManager.setNextMsg("refill");
 					this.commManager.sendMsg();
-					/*
-					 *  TODO: decide if refill by monitor mode or
-					 *  		refill by message acknowledgement
-					 */
-					final String response = this.commManager.receiveMsg();
-					if (response.equals("refill-done")) {
-						this.model.refill();                    // ???
-					}
+					AppLogger.getAppLogger().event("Refill message sent from PC");
 				}
 				if (this.view.isPresent()) {
 					this.view.get().showRefill(this.model.needRefill());
 				}
 			} else if (eventId == ViewEvents.RECOVER_EVENT) {
+				AppLogger.getAppLogger().event("RecoverEvent");
+				if (this.commManager.recoverNeeded()) {
+					this.commManager.setNextMsg("recover");
+					this.commManager.sendMsg();
+					AppLogger.getAppLogger().event("Recover message sent from PC");
+				}
 				if (this.view.isPresent()) {
 					this.view.get().showRecover(this.model.needRecover());
 				}
@@ -83,10 +82,17 @@ public class Controller implements ViewObserver {
 	public void handleIncomingMessages() throws InterruptedException {
 		if (this.commManager.isMsgAvailable()) {
 			final String msg = this.commManager.receiveMsg();
-			if (msg == "needRefill") {
+			if (msg.equals("need-refill")) {										// Actions requests
+				AppLogger.getAppLogger().event("need-refill received!");
 				this.commManager.setRefillRequest(true); 
-			} else if (msg == "needRecover") {
+				// this.model.setRefillNeeded(true);
+			} else if (msg.equals("need-recover")) {
 				this.commManager.setRecoverRequest(true); 
+				// this.model.setRecoverNeeded(true);
+			} else if (msg.equals("refill-done")) {							    // Actions done confirmation
+				this.model.refill();
+			} else if (msg.equals("recover-done")) {
+				this.model.recover();
 			}
 		}
 	}

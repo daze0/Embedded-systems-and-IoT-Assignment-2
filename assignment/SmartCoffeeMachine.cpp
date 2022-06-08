@@ -41,6 +41,6 @@ void SmartCoffeeMachine::setAssistance(bool assistance) {
   this->assistance = assistance;
 }
 
-bool SmartCoffeeMachine::IsInAssistanceMode() {
+bool SmartCoffeeMachine::isInAssistanceMode() {
   return this->assistance;
 }

@@ -80,7 +80,7 @@ void SelfTestTask::tick() {
       break;
     case AM:
       Serial.println("AM");
-      if (!this->getMachine()->IsInAssistanceMode()) {
+      if (!this->getMachine()->isInAssistanceMode()) {
         this->state = ST0;
         this->getMachine()->setReady(true);
         this->motor->off();

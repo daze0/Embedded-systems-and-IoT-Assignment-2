@@ -11,7 +11,7 @@ public:
   void setMake(bool make);
   void refill();
   void setAssistance(bool assistance);
-  bool IsInAssistanceMode();
+  bool isInAssistanceMode();
 private:
   int coffee;
   int tea;

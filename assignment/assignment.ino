@@ -11,6 +11,7 @@
 #include "Servo2MotorImpl.h"
 #include "TemperatureSensor.h"
 #include "SelfTestTask.h"
+#include "SerialMessengerTask.h"
 
 #define LCD_RS 12
 #define LCD_ENABLE 11
@@ -40,6 +41,10 @@
 * 
 */
 #define SELF_TEST_TASK_PERIOD 250
+/*
+*
+*/
+#define SERIAL_MESSENGER_TASK_PERIOD 250
 
 Scheduler sched;
 
@@ -49,17 +54,20 @@ void setup() {
   SmartCoffeeMachine* coffeeMachine = new SmartCoffeeMachine();
   Screen* lcd = new LCDScreen(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
   //Sensor* pir = new PirSensor(PIR_PIN);
-  ServoMotor* motor = new Servo2MotorImpl(MOTOR_PIN);
-  Sensor* tempSensor = new TemperatureSensor(TMP_PIN);
+  //ServoMotor* motor = new Servo2MotorImpl(MOTOR_PIN);
+  //Sensor* tempSensor = new TemperatureSensor(TMP_PIN);
   Task* t0 = new InitializeTask(coffeeMachine, lcd);
   //Task* t1 = new SleepTask(coffeeMachine, pir);
-  Task* t2 = new SelfTestTask(coffeeMachine, tempSensor, motor, lcd);
+  //Task* t2 = new SelfTestTask(coffeeMachine, tempSensor, motor, lcd);
+  Task* t3 = new SerialMessengerTask(coffeeMachine);
   t0->init(INITIALIZE_TASK_PERIOD);
   //t1->init(SLEEP_TASK_PERIOD);
-  t2->init(SELF_TEST_TASK_PERIOD);
+  //t2->init(SELF_TEST_TASK_PERIOD);
+  t3->init(SERIAL_MESSENGER_TASK_PERIOD);
   sched.addTask(t0);
   //sched.addTask(t1);
-  sched.addTask(t2);
+  //sched.addTask(t2);
+  sched.addTask(t3);
 }
 
 void loop() {
