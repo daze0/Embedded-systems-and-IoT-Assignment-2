@@ -19,10 +19,21 @@ void SerialMessengerTask::tick() {
         debugFlag = false;
         MsgService.sendMsg("need-refill");
         this->state = RECV;
-      }
-      if (this->getMachine()->isInAssistanceMode()) {
+      } else if (this->getMachine()->isInAssistanceMode()) {
         MsgService.sendMsg("need-recover");
         this->state = RECV;
+      } else if (MsgService.isMsgAvailable()) {
+        // this handles the case in which monitor msg is sent from the PC
+        Msg* msg = MsgService.receiveMsg();
+        if (msg->getContent() == "monitor") {
+          MsgService.sendMsg("mode:" + String(this->getMachine()->getMode()) + ";" +
+                             "tea:" + String(this->getMachine()->getTea()) + ";" +
+                             "coffee:" + String(this->getMachine()->getCoffee()) + ";" +
+                             "chocolate:" + String(this->getMachine()->getChocolate()) + ";" +
+                             "sugar:" + String(this->getMachine()->getSugar()) + ";" +
+                             "nTests:" + String(this->getMachine()->getNSelfTests()) + ";");
+        }
+        delete msg;
       }
       break;
     case RECV:

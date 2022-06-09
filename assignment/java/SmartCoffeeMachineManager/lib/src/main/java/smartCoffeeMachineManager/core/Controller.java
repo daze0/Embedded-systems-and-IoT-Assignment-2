@@ -47,6 +47,8 @@ public class Controller implements ViewObserver {
 			final ViewEvents eventId = e.getId();
 			if (eventId == ViewEvents.MONITOR_EVENT) {
 				AppLogger.getAppLogger().event("MonitorEvent");
+				this.commManager.setNextMsg("monitor");
+				this.commManager.sendMsg();
 				if (this.view.isPresent()) {
 					this.view.get().showMonitorMode(
 							this.model.getMode().getName(),
@@ -80,8 +82,15 @@ public class Controller implements ViewObserver {
 	}
 	
 	public void handleIncomingMessages() throws InterruptedException {
+		/*
+		 * TODO: 
+		 * -> handle monitor mode serial request, 
+		 * 	  it's a one way communication in this case,
+		 *    so no confirmation needed.
+		 */
 		if (this.commManager.isMsgAvailable()) {
 			final String msg = this.commManager.receiveMsg();
+			// TODO: monitor data retrieval from json 
 			if (msg.equals("need-refill")) {										// Actions requests
 				AppLogger.getAppLogger().event("need-refill received!");
 				this.commManager.setRefillRequest(true); 

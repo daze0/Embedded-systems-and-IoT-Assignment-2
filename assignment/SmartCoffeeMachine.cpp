@@ -6,9 +6,43 @@ SmartCoffeeMachine::SmartCoffeeMachine() {
   this->tea = N_MAX;
   this->chocolate = N_MAX;
   this->sugar = N_MAX;
+  this->nSelfTests = 0;
+  this->mode = "WORKING";
   this->ready = false;
   this->make = false;
   this->assistance = false;
+}
+
+int SmartCoffeeMachine::getTea() {
+  return this->tea;
+}
+
+int SmartCoffeeMachine::getCoffee() {
+  return this->coffee;
+}
+
+int SmartCoffeeMachine::getChocolate() {
+  return this->chocolate;
+}
+
+int SmartCoffeeMachine::getSugar() {
+  return this->sugar;
+}
+
+int SmartCoffeeMachine::getNSelfTests() {
+  return this->nSelfTests;
+}
+
+void SmartCoffeeMachine::selfTest() {
+  this->nSelfTests++;
+}
+
+void SmartCoffeeMachine::setMode(char* mode) {
+  this->mode = mode;
+}
+
+char* SmartCoffeeMachine::getMode() {
+  return this->mode;
 }
 
 bool SmartCoffeeMachine::productsAvailable() {
