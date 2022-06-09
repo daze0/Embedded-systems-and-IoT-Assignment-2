@@ -6,8 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import smartCoffeeMachineManager.comm.CommManager;
 import smartCoffeeMachineManager.logging.AppLogger;
+import smartCoffeeMachineManager.model.Modalities;
 import smartCoffeeMachineManager.model.Model;
 import smartCoffeeMachineManager.view.View;
 import smartCoffeeMachineManager.view.ViewObserver;
@@ -90,18 +95,39 @@ public class Controller implements ViewObserver {
 		 */
 		if (this.commManager.isMsgAvailable()) {
 			final String msg = this.commManager.receiveMsg();
-			// TODO: monitor data retrieval from json 
 			if (msg.equals("need-refill")) {										// Actions requests
 				AppLogger.getAppLogger().event("need-refill received!");
 				this.commManager.setRefillRequest(true); 
-				// this.model.setRefillNeeded(true);
 			} else if (msg.equals("need-recover")) {
 				this.commManager.setRecoverRequest(true); 
-				// this.model.setRecoverNeeded(true);
 			} else if (msg.equals("refill-done")) {							    // Actions done confirmation
 				this.model.refill();
 			} else if (msg.equals("recover-done")) {
 				this.model.recover();
+			} else if (msg.startsWith("{") && msg.endsWith("}")) {	
+				final ObjectMapper mapper = new ObjectMapper();
+				try {
+					final Map<String, Object> dataMap = mapper.readValue(msg, Map.class);
+					final String mode = (String) dataMap.get("mode");
+					if ((mode.equals(Modalities.IDLE.getName()))) {
+						this.model.setMode(Modalities.IDLE);
+					} else if (mode.equals(Modalities.ASSISTANCE.getName())) {
+						this.model.setMode(Modalities.ASSISTANCE);
+					} else if (mode.equals(Modalities.WORKING.getName())) {
+						this.model.setMode(Modalities.WORKING);
+					}
+					this.model.setTea((int) dataMap.get("tea"));
+					this.model.setCoffee((int) dataMap.get("coffee"));
+					this.model.setChocolate((int) dataMap.get("chocolate"));
+					this.model.setSugar((int) dataMap.get("sugar"));
+					this.model.setNSelfTests((int) dataMap.get("nTests"));
+				} catch(final JsonMappingException e) {
+					e.printStackTrace();
+				} catch(final JsonProcessingException e) {
+					e.printStackTrace();
+				}
+			} else {
+				
 			}
 		}
 	}

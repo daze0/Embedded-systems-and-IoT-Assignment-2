@@ -1,7 +1,8 @@
 #include "SerialMessengerTask.h"
 #include "MsgService.h"
+#include <ArduinoJson.h>
 
-bool debugFlag = true;
+//bool debugFlag = true;
 
 SerialMessengerTask::SerialMessengerTask(SmartCoffeeMachine* machine): Task(machine) {}
 
@@ -14,9 +15,9 @@ void SerialMessengerTask::init(int period) {
 void SerialMessengerTask::tick() {
   switch (this->state) {
     case SEND:
-      //if (!this->getMachine()->productsAvailable()) {
-      if (debugFlag) {
-        debugFlag = false;
+      if (!this->getMachine()->productsAvailable()) {
+      //if (debugFlag) {
+        //debugFlag = false;
         MsgService.sendMsg("need-refill");
         this->state = RECV;
       } else if (this->getMachine()->isInAssistanceMode()) {
@@ -26,12 +27,14 @@ void SerialMessengerTask::tick() {
         // this handles the case in which monitor msg is sent from the PC
         Msg* msg = MsgService.receiveMsg();
         if (msg->getContent() == "monitor") {
-          MsgService.sendMsg("mode:" + String(this->getMachine()->getMode()) + ";" +
-                             "tea:" + String(this->getMachine()->getTea()) + ";" +
-                             "coffee:" + String(this->getMachine()->getCoffee()) + ";" +
-                             "chocolate:" + String(this->getMachine()->getChocolate()) + ";" +
-                             "sugar:" + String(this->getMachine()->getSugar()) + ";" +
-                             "nTests:" + String(this->getMachine()->getNSelfTests()) + ";");
+          StaticJsonDocument<200> doc;
+          doc["mode"] = this->getMachine()->getMode();
+          doc["tea"] = this->getMachine()->getTea();
+          doc["coffee"] = this->getMachine()->getCoffee();
+          doc["chocolate"] = this->getMachine()->getChocolate();
+          doc["sugar"] = this->getMachine()->getSugar();
+          doc["nTests"] = this->getMachine()->getNSelfTests();
+          serializeJson(doc, Serial);
         }
         delete msg;
       }

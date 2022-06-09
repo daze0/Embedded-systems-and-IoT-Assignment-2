@@ -80,9 +80,21 @@ public interface Model {
 	 */
 	Modalities getMode();
 	/**
+	 * Sets a new mode.
+	 * 
+	 * @param mode to set.
+	 */
+	void setMode(Modalities mode);
+	/**
 	 * Returns n self test executed.
 	 * 
 	 * @return the number of self-tests executed by the smart coffee machine. 
 	 */
 	int getNSelfTests();
+	/**
+	 * Sets n as the number of self tests made.
+	 * 
+	 * @param n of self tests.
+	 */
+	void setNSelfTests(int n);
 }

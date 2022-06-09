@@ -127,4 +127,14 @@ public class ModelImpl implements Model {
 		return this.machine.getNSelfTests();
 	}
 
+	@Override
+	public void setMode(Modalities mode) {
+		this.machine.setMode(mode);
+	}
+
+	@Override
+	public void setNSelfTests(int n) {
+		this.machine.setNSelfTests(n);
+	}
+
 }
