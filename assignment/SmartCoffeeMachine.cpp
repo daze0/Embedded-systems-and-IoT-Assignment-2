@@ -2,15 +2,15 @@
 #define N_MAX 5
 
 SmartCoffeeMachine::SmartCoffeeMachine() {
-  this->coffee = N_MAX;
-  this->tea = N_MAX;
-  this->chocolate = N_MAX;
-  this->sugar = N_MAX;
+  this->coffee = 0;//N_MAX;
+  this->tea = 0;//N_MAX;
+  this->chocolate = 0;//N_MAX;
+  this->sugar = 0;//N_MAX;
   this->nSelfTests = 0;
   this->mode = "WORKING";
   this->ready = false;
   this->make = false;
-  this->assistance = false;
+  this->assistance = true;//false;
 }
 
 int SmartCoffeeMachine::getTea() {
@@ -46,7 +46,7 @@ char* SmartCoffeeMachine::getMode() {
 }
 
 bool SmartCoffeeMachine::productsAvailable() {
-  return (this->coffee == 0) && (this->tea == 0) && (this->chocolate == 0);
+  return !((this->coffee == 0) && (this->tea == 0) && (this->chocolate == 0));
 }
 
 bool SmartCoffeeMachine::isReady() {

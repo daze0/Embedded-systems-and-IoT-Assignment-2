@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import smartCoffeeMachineManager.comm.CommManager;
+import smartCoffeeMachineManager.comm.MonitorCommPacket;
 import smartCoffeeMachineManager.logging.AppLogger;
 import smartCoffeeMachineManager.model.Modalities;
 import smartCoffeeMachineManager.model.Model;
@@ -63,23 +64,27 @@ public class Controller implements ViewObserver {
 				}
 			} else if (eventId == ViewEvents.REFILL_EVENT) {
 				AppLogger.getAppLogger().event("RefillEvent");
+				AppLogger.getAppLogger().debug("refillNeeded: " + String.valueOf(this.commManager.refillNeeded()));
 				if (this.commManager.refillNeeded()) {
 					this.commManager.setNextMsg("refill");
 					this.commManager.sendMsg();
+					this.commManager.setRefillRequest(false);
 					AppLogger.getAppLogger().event("Refill message sent from PC");
 				}
 				if (this.view.isPresent()) {
-					this.view.get().showRefill(this.model.needRefill());
+					this.view.get().showRefill(this.commManager.refillNeeded());
 				}
 			} else if (eventId == ViewEvents.RECOVER_EVENT) {
 				AppLogger.getAppLogger().event("RecoverEvent");
+				AppLogger.getAppLogger().debug("recoverNeeded: " + String.valueOf(this.commManager.recoverNeeded()));
 				if (this.commManager.recoverNeeded()) {
 					this.commManager.setNextMsg("recover");
 					this.commManager.sendMsg();
+					this.commManager.setRecoverRequest(false);
 					AppLogger.getAppLogger().event("Recover message sent from PC");
 				}
 				if (this.view.isPresent()) {
-					this.view.get().showRecover(this.model.needRecover());
+					this.view.get().showRecover(this.commManager.recoverNeeded());
 				}
 			}
 		}
@@ -87,16 +92,10 @@ public class Controller implements ViewObserver {
 	}
 	
 	public void handleIncomingMessages() throws InterruptedException {
-		/*
-		 * TODO: 
-		 * -> handle monitor mode serial request, 
-		 * 	  it's a one way communication in this case,
-		 *    so no confirmation needed.
-		 */
 		if (this.commManager.isMsgAvailable()) {
 			final String msg = this.commManager.receiveMsg();
+			AppLogger.getAppLogger().event("Message on serial line: " + msg);	
 			if (msg.equals("need-refill")) {										// Actions requests
-				AppLogger.getAppLogger().event("need-refill received!");
 				this.commManager.setRefillRequest(true); 
 			} else if (msg.equals("need-recover")) {
 				this.commManager.setRecoverRequest(true); 
@@ -105,10 +104,11 @@ public class Controller implements ViewObserver {
 			} else if (msg.equals("recover-done")) {
 				this.model.recover();
 			} else if (msg.startsWith("{") && msg.endsWith("}")) {	
+				AppLogger.getAppLogger().debug("JSON object detected!");
 				final ObjectMapper mapper = new ObjectMapper();
 				try {
-					final Map<String, Object> dataMap = mapper.readValue(msg, Map.class);
-					final String mode = (String) dataMap.get("mode");
+					final MonitorCommPacket dataMap = mapper.readValue(msg, MonitorCommPacket.class);
+					final String mode = (String) dataMap.getMode();
 					if ((mode.equals(Modalities.IDLE.getName()))) {
 						this.model.setMode(Modalities.IDLE);
 					} else if (mode.equals(Modalities.ASSISTANCE.getName())) {
@@ -116,19 +116,22 @@ public class Controller implements ViewObserver {
 					} else if (mode.equals(Modalities.WORKING.getName())) {
 						this.model.setMode(Modalities.WORKING);
 					}
-					this.model.setTea((int) dataMap.get("tea"));
-					this.model.setCoffee((int) dataMap.get("coffee"));
-					this.model.setChocolate((int) dataMap.get("chocolate"));
-					this.model.setSugar((int) dataMap.get("sugar"));
-					this.model.setNSelfTests((int) dataMap.get("nTests"));
+					this.model.setTea(dataMap.getTea());
+					this.model.setCoffee(dataMap.getCoffee());
+					this.model.setChocolate(dataMap.getChocolate());
+					this.model.setSugar(dataMap.getSugar());
+					this.model.setNSelfTests(dataMap.getNTests());
+					AppLogger.getAppLogger().event("nTests received: " + dataMap.getNTests());
 				} catch(final JsonMappingException e) {
-					e.printStackTrace();
+					AppLogger.getAppLogger().error(e.getStackTrace().toString());
 				} catch(final JsonProcessingException e) {
-					e.printStackTrace();
+					AppLogger.getAppLogger().error(e.getStackTrace().toString());
 				}
 			} else {
-				
+				AppLogger.getAppLogger().debug("Strange message arrived: " + msg);
 			}
+		} else {
+			AppLogger.getAppLogger().debug("No message received");
 		}
 	}
 	

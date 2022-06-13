@@ -16,8 +16,8 @@ void SerialMessengerTask::tick() {
   switch (this->state) {
     case SEND:
       if (!this->getMachine()->productsAvailable()) {
-      //if (debugFlag) {
-        //debugFlag = false;
+      /*if (debugFlag) {
+        debugFlag = false;*/
         MsgService.sendMsg("need-refill");
         this->state = RECV;
       } else if (this->getMachine()->isInAssistanceMode()) {
@@ -43,10 +43,12 @@ void SerialMessengerTask::tick() {
       // better analyze this: receiveMsg blocks the control flow (?)
       if (MsgService.isMsgAvailable()) {
         Msg* msg = MsgService.receiveMsg();
-        if (msg->getContent() == "refill-done") {
+        if (msg->getContent() == "refill") {
           this->getMachine()->refill();
-        } else if (msg->getContent() == "recover-done") {
+          MsgService.sendMsg("refill-done");
+        } else if (msg->getContent() == "recover") {
           this->getMachine()->setAssistance(false);
+          MsgService.sendMsg("recover-done");
         }
         delete msg;
         this->state = SEND;
