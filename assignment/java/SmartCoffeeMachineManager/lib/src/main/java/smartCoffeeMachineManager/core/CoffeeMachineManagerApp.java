@@ -29,6 +29,7 @@ public class CoffeeMachineManagerApp {
 			 */
 			controller.handleIncomingMessages();
 			controller.checkEvents();
+			Thread.sleep(250);
 		}
 	}
 }

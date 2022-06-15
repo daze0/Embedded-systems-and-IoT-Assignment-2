@@ -1,6 +1,7 @@
 #include "SerialMessengerTask.h"
 #include "MsgService.h"
 #include <ArduinoJson.h>
+#include <Arduino.h>
 
 //bool debugFlag = true;
 
@@ -27,6 +28,8 @@ void SerialMessengerTask::tick() {
         // this handles the case in which monitor msg is sent from the PC
         Msg* msg = MsgService.receiveMsg();
         if (msg->getContent() == "monitor") {
+          //Serial.println("monitor-response");
+          //MsgService.sendMsg("{}");
           StaticJsonDocument<200> doc;
           doc["mode"] = this->getMachine()->getMode();
           doc["tea"] = this->getMachine()->getTea();
@@ -49,6 +52,15 @@ void SerialMessengerTask::tick() {
         } else if (msg->getContent() == "recover") {
           this->getMachine()->setAssistance(false);
           MsgService.sendMsg("recover-done");
+        } else if (msg->getContent() == "monitor") {
+          StaticJsonDocument<200> doc;
+          doc["mode"] = this->getMachine()->getMode();
+          doc["tea"] = this->getMachine()->getTea();
+          doc["coffee"] = this->getMachine()->getCoffee();
+          doc["chocolate"] = this->getMachine()->getChocolate();
+          doc["sugar"] = this->getMachine()->getSugar();
+          doc["nTests"] = this->getMachine()->getNSelfTests();
+          serializeJson(doc, Serial);
         }
         delete msg;
         this->state = SEND;

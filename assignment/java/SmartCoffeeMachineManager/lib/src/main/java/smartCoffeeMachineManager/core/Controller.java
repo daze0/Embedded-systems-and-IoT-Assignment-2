@@ -105,6 +105,7 @@ public class Controller implements ViewObserver {
 				this.model.recover();
 			} else if (msg.startsWith("{") && msg.endsWith("}")) {	
 				AppLogger.getAppLogger().debug("JSON object detected!");
+				/*
 				final ObjectMapper mapper = new ObjectMapper();
 				try {
 					final MonitorCommPacket dataMap = mapper.readValue(msg, MonitorCommPacket.class);
@@ -126,12 +127,12 @@ public class Controller implements ViewObserver {
 					AppLogger.getAppLogger().error(e.getStackTrace().toString());
 				} catch(final JsonProcessingException e) {
 					AppLogger.getAppLogger().error(e.getStackTrace().toString());
-				}
+				}*/
 			} else {
 				AppLogger.getAppLogger().debug("Strange message arrived: " + msg);
 			}
 		} else {
-			AppLogger.getAppLogger().debug("No message received");
+			//AppLogger.getAppLogger().debug("No message received");
 		}
 	}
 	
