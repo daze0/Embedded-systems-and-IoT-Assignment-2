@@ -103,11 +103,10 @@ public class Controller implements ViewObserver {
 				this.model.refill();
 			} else if (msg.equals("recover-done")) {
 				this.model.recover();
-			} else if (msg.startsWith("{") && msg.endsWith("}")) {	
-				AppLogger.getAppLogger().debug("JSON object detected!");
-				/*
+			} else {	
 				final ObjectMapper mapper = new ObjectMapper();
 				try {
+					AppLogger.getAppLogger().debug("JSON object detected!");
 					final MonitorCommPacket dataMap = mapper.readValue(msg, MonitorCommPacket.class);
 					final String mode = (String) dataMap.getMode();
 					if ((mode.equals(Modalities.IDLE.getName()))) {
@@ -122,14 +121,11 @@ public class Controller implements ViewObserver {
 					this.model.setChocolate(dataMap.getChocolate());
 					this.model.setSugar(dataMap.getSugar());
 					this.model.setNSelfTests(dataMap.getNTests());
-					AppLogger.getAppLogger().event("nTests received: " + dataMap.getNTests());
 				} catch(final JsonMappingException e) {
 					AppLogger.getAppLogger().error(e.getStackTrace().toString());
 				} catch(final JsonProcessingException e) {
 					AppLogger.getAppLogger().error(e.getStackTrace().toString());
-				}*/
-			} else {
-				AppLogger.getAppLogger().debug("Strange message arrived: " + msg);
+				}
 			}
 		} else {
 			//AppLogger.getAppLogger().debug("No message received");

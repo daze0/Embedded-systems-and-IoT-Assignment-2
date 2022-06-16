@@ -7,7 +7,7 @@ SmartCoffeeMachine::SmartCoffeeMachine() {
   this->chocolate = 0;//N_MAX;
   this->sugar = 0;//N_MAX;
   this->nSelfTests = 0;
-  this->mode = "WORKING";
+  this->mode = "ASSISTANCE";//"WORKING";
   this->ready = false;
   this->make = false;
   this->assistance = true;//false;
