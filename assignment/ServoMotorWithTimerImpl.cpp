@@ -1,7 +1,7 @@
 #include "AbstractServoMotor.h"
 #include "ServoMotorWithTimer.h"
 #include "ServoMotorWithTimerImpl.h"
-#include "TimerOne.h"
+#include <TimerOne.h>                   // TODO: change timer
 #include "ServoMotor.h"
 #define SEC_TO_USEC 1000000
 #define MAX_PULSE 2750
