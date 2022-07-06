@@ -3,19 +3,20 @@
 
 #include "Task.h"
 #include "Sensor.h"
-#include "Screen.h"
+#include <LiquidCrystal_I2C.h>
 #include "ServoMotor.h"
 
 class MakeProductTask: public Task {
 public:
-  MakeProductTask(SmartCoffeeMachine* machine, Sensor* sonarSensor, Screen* lcdScreen, ServoMotor* motor);
+  MakeProductTask(SmartCoffeeMachine* machine, Sensor* sonarSensor, LiquidCrystal_I2C* lcdScreen, ServoMotor* motor);
   void init(int period);
   void tick();
 private:
   enum {MP0, MP1, MP2, MP3, MP4, MP5} state;
   Sensor* sonar;
-  Screen* lcdScreen;
+  LiquidCrystal_I2C* lcdScreen;
   ServoMotor* motor;
+  int elapsedTime;
 };
 
 #endif
