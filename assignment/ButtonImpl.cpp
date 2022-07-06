@@ -16,3 +16,7 @@ void ButtonImpl::sync(){
   updateSyncTime(millis());
 }
 
+int ButtonImpl::getPin(){
+    return this->pin;
+}
+

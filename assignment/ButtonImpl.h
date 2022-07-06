@@ -6,14 +6,14 @@
 class ButtonImpl: public Button{
 
 public:
-  ButtonImpl(int pin);
-  bool isPressed();
-  void sync();
+    ButtonImpl(int pin);
+    bool isPressed();
+    void sync();
+    int getPin();
 
 private:
-  int pin;
-  bool pressed;
-
+    int pin;
+    bool pressed;
 };
 
 #endif
