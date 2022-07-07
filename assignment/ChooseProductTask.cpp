@@ -18,6 +18,8 @@ ChooseProductTask::ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn,
 void ChooseProductTask::init(int period) {
     Task::init(period);
     this->state = CP0;
+    // This istruction may be superflous
+    this->lcdScreen->init();
 }
 
 void ChooseProductTask::tick() {

@@ -90,20 +90,20 @@ Product* SmartCoffeeMachine::getSelectedProduct(){
     return this->productSelected;
 }
 
-int SmartCoffeeMachine::getTea() {
-  return this->tea;
+Product* SmartCoffeeMachine::getTea() {
+  return this->listOfProducts[1];
 }
 
-int SmartCoffeeMachine::getCoffee() {
-  return this->coffee;
+Product* SmartCoffeeMachine::getCoffee() {
+  return this->listOfProducts[0];
 }
 
-int SmartCoffeeMachine::getChocolate() {
-  return this->chocolate;
+Product* SmartCoffeeMachine::getChocolate() {
+  return this->listOfProducts[2];
 }
 
-int SmartCoffeeMachine::getSugar() {
-  return this->sugar;
+Product* SmartCoffeeMachine::getSugar() {
+  return this->listOfProducts[3];
 }
 
 int SmartCoffeeMachine::getNSelfTests() {
