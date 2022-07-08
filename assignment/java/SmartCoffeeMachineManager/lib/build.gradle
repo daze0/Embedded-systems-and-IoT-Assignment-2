@@ -28,4 +28,7 @@ dependencies {
     
     // Serial connector
     implementation 'io.github.java-native:jssc:2.9.4'
+    
+    // JSON 
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
 }

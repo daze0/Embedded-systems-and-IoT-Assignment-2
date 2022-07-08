@@ -16,6 +16,9 @@
 #include "MakeProductTask.h"
 #include "ChooseProductTask.h"
 #include "SonarSensor.h"
+#include "PotentiometerSensor.h"
+#include "SerialMessengerTask.h"
+#include "ButtonImpl.h"
 
 #define PIR_PIN 2
 #define MOTOR_PIN 3
@@ -81,8 +84,8 @@ void setup() {
     //motorWithTimer = new ServoMotorWithTimerImpl(motor);
     Sensor* tempSensor = new TemperatureSensor(TMP_PIN);
     Sensor* sonarSensor = new SonarSensor(1, 2); 
-    Senspr* potSensor = new PotentiometerSensor(POT_PIN);
-    Button* upBtAKn = new ButtonImpl(UP_BTN_PIN);
+    Sensor* potSensor = new PotentiometerSensor(POT_PIN);
+    Button* upBtn = new ButtonImpl(UP_BTN_PIN);
     Button* downBtn = new ButtonImpl(DOWN_BTN_PIN);
     Button* makeBtn = new ButtonImpl(MAKE_BTN_PIN);
   
@@ -104,6 +107,7 @@ void setup() {
     sched.addTask(t2); 
     sched.addTask(t3);
     sched.addTask(t4);
+
 }
 
 void loop() {

@@ -6,8 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import smartCoffeeMachineManager.comm.CommManager;
+import smartCoffeeMachineManager.comm.MonitorCommPacket;
 import smartCoffeeMachineManager.logging.AppLogger;
+import smartCoffeeMachineManager.model.Modalities;
 import smartCoffeeMachineManager.model.Model;
 import smartCoffeeMachineManager.view.View;
 import smartCoffeeMachineManager.view.ViewObserver;
@@ -19,11 +25,13 @@ public class Controller implements ViewObserver {
 	private final Model model;
 	private Optional<View> view;
 	private final List<ViewEvent> eventQueue;
+	private final CommManager commManager;
 	
-	public Controller(final Model model) {
+	public Controller(final Model model, final CommManager commManager) {
 		this.eventQueue = new ArrayList<>(); 
 		this.model = model;
 		this.view = Optional.empty();
+		this.commManager = commManager;
 	}
 	
 	@Override
@@ -40,14 +48,14 @@ public class Controller implements ViewObserver {
 		return productsAvailable.toString();
 	}
 	
-	//NOTE: view events 
-	public void checkEvents() {
+	public void checkEvents() throws InterruptedException {
 		for (final ViewEvent e : this.eventQueue) {
-			AppLogger.getAppLogger().debug("Inside checkEvents() loop");
 			final ViewEvents eventId = e.getId();
 			if (eventId == ViewEvents.MONITOR_EVENT) {
+				AppLogger.getAppLogger().event("MonitorEvent");
+				this.commManager.setNextMsg("monitor");
+				this.commManager.sendMsg();
 				if (this.view.isPresent()) {
-					AppLogger.getAppLogger().event("MonitorEvent");
 					this.view.get().showMonitorMode(
 							this.model.getMode().getName(),
 							this.computeAvailableProducts(),
@@ -55,20 +63,73 @@ public class Controller implements ViewObserver {
 					);
 				}
 			} else if (eventId == ViewEvents.REFILL_EVENT) {
+				AppLogger.getAppLogger().event("RefillEvent");
+				AppLogger.getAppLogger().debug("refillNeeded: " + String.valueOf(this.commManager.refillNeeded()));
+				if (this.commManager.refillNeeded()) {
+					this.commManager.setNextMsg("refill");
+					this.commManager.sendMsg();
+					this.commManager.setRefillRequest(false);
+					AppLogger.getAppLogger().event("Refill message sent from PC");
+				}
 				if (this.view.isPresent()) {
-					this.view.get().showRefill(this.model.needRefill());
+					this.view.get().showRefill(this.commManager.refillNeeded());
 				}
 			} else if (eventId == ViewEvents.RECOVER_EVENT) {
+				AppLogger.getAppLogger().event("RecoverEvent");
+				AppLogger.getAppLogger().debug("recoverNeeded: " + String.valueOf(this.commManager.recoverNeeded()));
+				if (this.commManager.recoverNeeded()) {
+					this.commManager.setNextMsg("recover");
+					this.commManager.sendMsg();
+					this.commManager.setRecoverRequest(false);
+					AppLogger.getAppLogger().event("Recover message sent from PC");
+				}
 				if (this.view.isPresent()) {
-					this.view.get().showRecover(this.model.needRecover());
+					this.view.get().showRecover(this.commManager.recoverNeeded());
 				}
 			}
 		}
 		this.eventQueue.clear();
 	}
 	
-	public void handle(final CommManager m) {
-		// TODO
+	public void handleIncomingMessages() throws InterruptedException {
+		if (this.commManager.isMsgAvailable()) {
+			final String msg = this.commManager.receiveMsg();
+			AppLogger.getAppLogger().event("Message on serial line: " + msg);	
+			if (msg.equals("need-refill")) {										// Actions requests
+				this.commManager.setRefillRequest(true); 
+			} else if (msg.equals("need-recover")) {
+				this.commManager.setRecoverRequest(true); 
+			} else if (msg.equals("refill-done")) {							    // Actions done confirmation
+				this.model.refill();
+			} else if (msg.equals("recover-done")) {
+				this.model.recover();
+			} else {	
+				final ObjectMapper mapper = new ObjectMapper();
+				try {
+					AppLogger.getAppLogger().debug("JSON object detected!");
+					final MonitorCommPacket dataMap = mapper.readValue(msg, MonitorCommPacket.class);
+					final String mode = (String) dataMap.getMode();
+					if ((mode.equals(Modalities.IDLE.getName()))) {
+						this.model.setMode(Modalities.IDLE);
+					} else if (mode.equals(Modalities.ASSISTANCE.getName())) {
+						this.model.setMode(Modalities.ASSISTANCE);
+					} else if (mode.equals(Modalities.WORKING.getName())) {
+						this.model.setMode(Modalities.WORKING);
+					}
+					this.model.setTea(dataMap.getTea());
+					this.model.setCoffee(dataMap.getCoffee());
+					this.model.setChocolate(dataMap.getChocolate());
+					this.model.setSugar(dataMap.getSugar());
+					this.model.setNSelfTests(dataMap.getNTests());
+				} catch(final JsonMappingException e) {
+					AppLogger.getAppLogger().error(e.getStackTrace().toString());
+				} catch(final JsonProcessingException e) {
+					AppLogger.getAppLogger().error(e.getStackTrace().toString());
+				}
+			}
+		} else {
+			//AppLogger.getAppLogger().debug("No message received");
+		}
 	}
 	
 	public void attachView(final View view) {

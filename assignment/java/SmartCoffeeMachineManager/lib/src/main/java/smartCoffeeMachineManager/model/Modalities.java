@@ -1,9 +1,9 @@
 package smartCoffeeMachineManager.model;
 
 public enum Modalities {
-	IDLE("Idle"),
-	WORKING("Working"),
-	ASSISTANCE("Assistance");
+	IDLE("IDLE"),
+	WORKING("WORKING"),
+	ASSISTANCE("ASSISTANCE");
 	
 	private final String name;
 	
