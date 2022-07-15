@@ -1,11 +1,13 @@
 #include "SelfTestTask.h"
 #include "Arduino.h"
+#include <LiquidCrystal_I2C.h>
+
 #define T_CHECK 15000
 
 int currPos = 0;
 double tempValue;
 
-SelfTestTask::SelfTestTask(SmartCoffeeMachine* machine, Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen) : Task(machine) {
+SelfTestTask::SelfTestTask(SmartCoffeeMachine* machine, Sensor* tmpSensor, ServoMotor* motor, LiquidCrystal_I2C* lcdScreen) : Task(machine) {
   this->temperatureSensor = tmpSensor;
   this->motor = motor;
   this->lcdScreen = lcdScreen;
@@ -21,6 +23,7 @@ void SelfTestTask::tick() {
   switch(this->state) {
     case ST0:
       Serial.println("ST0");
+      this->getMachine()->setReady(true);
       if (this->getMachine()->isReady()) {
         this->state = ST1;
         this->elapsedTime = 0;
@@ -46,9 +49,10 @@ void SelfTestTask::tick() {
       {
         //currPos = this->motor->readPosition();
       }
-      Serial.println("currPos: " + String(currPos));
-      if (currPos < 10) {
-        this->motor->setPosition(currPos++);
+      Serial.println("currPos: " + String(this->motor->readPosition()));
+      if (this->motor->readPosition() < 180) {
+        currPos += 5;
+        this->motor->setPosition(currPos);
       } else {
         this->state = ST3;
       }
@@ -58,10 +62,11 @@ void SelfTestTask::tick() {
       {
         //currPos = this->motor->readPosition();
       }
-      if (currPos > 0) {
-        this->motor->setPosition(currPos--);
+      if (this->motor->readPosition() > 0) {
+        currPos -= 5;        
+        this->motor->setPosition(currPos);
       } else {
-        this->state = ST4;
+        this->state = ST2;
       }
       break;
     case ST4:
@@ -71,7 +76,7 @@ void SelfTestTask::tick() {
         this->state = AM;
         this->getMachine()->setAssistance(true);
         this->lcdScreen->clear();
-        this->lcdScreen->print("Assistance required!", 0, 0);
+        this->lcdScreen->print("Assistance required!");
       } else {
         this->state = ST0;
         this->getMachine()->setReady(true);

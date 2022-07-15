@@ -5,10 +5,11 @@
 #include "Button.h"
 #include "Sensor.h"
 #include "Screen.h"
+#include <LiquidCrystal_I2C.h>
 
 class ChooseProductTask: public Task {
 public:
-  ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, Screen* screenLCD);
+  ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, LiquidCrystal_I2C* screenLCD);
   void init(int period);
   void tick();
 private:
@@ -17,7 +18,8 @@ private:
   Button* downButton;
   Button* makeButton;
   Sensor* potSugar;    
-  Screen* lcdScreen;
+  LiquidCrystal_I2C* lcdScreen;
+  int elapsedTime;
 };
 
 #endif
