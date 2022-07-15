@@ -41,9 +41,10 @@
 * 
 */
 #define SELF_TEST_TASK_PERIOD 250
-/*
-*
-*/
+/***************************************
+* Minimum common divisor (MCD) between *
+* each period.                         *
+**************************************/
 #define SERIAL_MESSENGER_TASK_PERIOD 250
 
 Scheduler sched;
