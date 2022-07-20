@@ -1,26 +1,38 @@
 #include "LCDScreen.h"
+#include <LiquidCrystal_I2C.h>
+/*
+* I2C address of the LCD: 0x27
+*/
+#define LCD_ADDRESS 0x27
 
-/* pins must be passed in order */
-LCDScreen::LCDScreen(int address,int cols, int rows) {
-  this->lcd = new LiquidCrystal_I2C(address, cols, rows);
-}
+/*
+* Number of columns of LCD
+*/
+#define LCD_COLS 20
+
+/*
+* Number of rows of LCD
+*/
+#define LCD_ROWS 4
+
+LiquidCrystal_I2C lcd(LCD_ADDRESS, LCD_COLS, LCD_ROWS);
 
 void LCDScreen::init() {
-  this->lcd->init();
+  lcd.init();
 }
 
 void LCDScreen::print(char* msg) {
-  this->lcd->print(msg);
+  lcd.print(msg);
 }
 
 void LCDScreen::clear() {
-  this->lcd->clear();
+  lcd.clear();
 }
 
 void LCDScreen::setCursor(int rows, int cols) {
-    this->lcd->setCursor(rows, cols);
+    lcd.setCursor(rows, cols);
 }
 
 void LCDScreen::backlight() {
-    this->lcd->backlight();
+    lcd.backlight();
 }
