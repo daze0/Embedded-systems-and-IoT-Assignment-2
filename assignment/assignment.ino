@@ -2,7 +2,8 @@
 #include "SmartCoffeeMachine.h"
 #include "Screen.h"
 #include "Sensor.h"
-#include <LiquidCrystal_I2C.h>
+#include "LCDScreen.h"
+#include "Screen.h"
 #include "PirSensor.h"
 #include "Task.h"
 #include "InitializeTask.h"
@@ -78,10 +79,9 @@ void setup() {
     sched.init(SCHEDULER_PERIOD);
     
     SmartCoffeeMachine* coffeeMachine = new SmartCoffeeMachine();
-    LiquidCrystal_I2C* lcd = new LiquidCrystal_I2C(LCD_ADDRESS, LCD_COLS, LCD_ROWS);
+    Screen* lcd = new LCDScreen(LCD_ADDRESS, LCD_COLS, LCD_ROWS);
     Sensor* pir = new PirSensor(PIR_PIN);
     Servo2MotorImpl* motor = new Servo2MotorImpl(MOTOR_PIN);
-    //motorWithTimer = new ServoMotorWithTimerImpl(motor);
     Sensor* tempSensor = new TemperatureSensor(TMP_PIN);
     Sensor* sonarSensor = new SonarSensor(1, 2); 
     Sensor* potSensor = new PotentiometerSensor(POT_PIN);
@@ -99,7 +99,7 @@ void setup() {
     t0->init(INITIALIZE_TASK_PERIOD);
     t1->init(SLEEP_TASK_PERIOD);
     t2->init(SELF_TEST_TASK_PERIOD);
-    t3->init(MAKE_PRODUCT_TASK_PERIOD);
+    //t3->init(MAKE_PRODUCT_TASK_PERIOD);
     t4->init(SERIAL_MESSENGER_TASK_PERIOD);
   
     sched.addTask(t0);
