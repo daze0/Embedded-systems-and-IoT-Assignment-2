@@ -7,7 +7,7 @@
 String message_01;
 String message_02;
 
-MakeProductTask::MakeProductTask(SmartCoffeeMachine* machine, Sensor* sonarSensor, LiquidCrystal_I2C* lcdScreen, ServoMotor* motor) : Task(machine) {
+MakeProductTask::MakeProductTask(SmartCoffeeMachine* machine, Sensor* sonarSensor, Screen* lcdScreen, ServoMotor* motor) : Task(machine) {
     this->sonar = sonarSensor;
     this->lcdScreen = lcdScreen;
     this->motor = motor;
@@ -37,9 +37,9 @@ void MakeProductTask::tick() {
                 int totalSize = message_01.length();
                 char* msg_01;
                 message_01.toCharArray(msg_01, totalSize);
-                // this->lcdScreen->clear();
-                this->lcdScreen->setCursor(2, 1);
-                //this->lcdScreen->print("Hello World! MP0");
+                this->lcdScreen->clear();
+                //this->lcdScreen->setCursor(2, 1);
+                this->lcdScreen->print(msg_01);
                 this->state = MP1;
                 if(!motor->isAttached()) {
                     this->motor->on();
@@ -61,18 +61,12 @@ void MakeProductTask::tick() {
             this->state = MP3;
             message_02 = String("The ");
             message_02 += this->getMachine()->getSelectedProduct()->getName();
-            message_02 +=" is ready.";
-            
-            //this->lcdScreen->clear();
-            
+            message_02 +=" is ready.";            
             char* msg_02;
             int totalDim; 
             totalDim = message_02.length();
             message_02.toCharArray(msg_02, totalDim);
-            
-            this->lcdScreen->setCursor(2, 1);
-            //this->lcdScreen->print("Hello World! MP2");
-            
+            this->lcdScreen->print(msg_02);            
             break;
         case MP3:
             Serial.println("MP3");

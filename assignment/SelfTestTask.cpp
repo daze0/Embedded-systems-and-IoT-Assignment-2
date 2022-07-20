@@ -1,13 +1,12 @@
 #include "SelfTestTask.h"
 #include "Arduino.h"
-#include <LiquidCrystal_I2C.h>
 
-#define T_CHECK 15000
+#define T_CHECK 180000
 
 int currPos = 0;
 double tempValue;
 
-SelfTestTask::SelfTestTask(SmartCoffeeMachine* machine, Sensor* tmpSensor, ServoMotor* motor, LiquidCrystal_I2C* lcdScreen) : Task(machine) {
+SelfTestTask::SelfTestTask(SmartCoffeeMachine* machine, Sensor* tmpSensor, ServoMotor* motor, Screen* lcdScreen) : Task(machine) {
   this->temperatureSensor = tmpSensor;
   this->motor = motor;
   this->lcdScreen = lcdScreen;
@@ -23,7 +22,6 @@ void SelfTestTask::tick() {
   switch(this->state) {
     case ST0:
       Serial.println("ST0");
-      this->getMachine()->setReady(true);
       if (this->getMachine()->isReady()) {
         this->state = ST1;
         this->elapsedTime = 0;

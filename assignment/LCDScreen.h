@@ -2,18 +2,20 @@
 #define __LCDSCREEN__
 
 #include "Screen.h"
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 
 #define MAX_PINS 6
 
 class LCDScreen: public Screen {
 public:
-  LCDScreen(uint8_t rs, uint8_t enable, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
+  LCDScreen(int address,int cols, int rows);
   void init();
-  void print(char* msg, int row, int col);
+  void print(char* msg);
+  void setCursor(int rows, int cols);
+  void backlight();
   void clear();
 private:
-  LiquidCrystal* lcd;
+  LiquidCrystal_I2C* lcd;
 };
 
 #endif

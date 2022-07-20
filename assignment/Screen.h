@@ -3,9 +3,11 @@
 
 class Screen {
 public:
-  virtual void init();
-  virtual void print(char* msg, int row, int col);
-  virtual void clear();
+    virtual void init();
+    virtual void print(char* msg);
+    virtual void clear();
+    virtual void setCursor(int rows, int cols);
+    virtual void backlight();
 };
 
 #endif
