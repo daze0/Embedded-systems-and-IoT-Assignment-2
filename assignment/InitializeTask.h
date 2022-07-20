@@ -2,16 +2,16 @@
 #define __INITIALIZETASK__
 
 #include "Task.h"
-#include "LiquidCrystal_I2C.h"
+#include "Screen.h"
 
 class InitializeTask: public Task {
 public:
-  InitializeTask(SmartCoffeeMachine* machine, LiquidCrystal_I2C* lcdScreen);
+  InitializeTask(SmartCoffeeMachine* machine, Screen* lcdScreen);
   void init(int period);
   void tick();
 private:
   enum {I0, I1} state;
-  LiquidCrystal_I2C* lcdScreen;
+  Screen* lcdScreen;
 };
 
 #endif

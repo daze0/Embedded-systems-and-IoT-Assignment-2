@@ -26,10 +26,10 @@ void SerialMessengerTask::tick() {
         if (msg->getContent() == "monitor") {
           StaticJsonDocument<200> doc;
           doc["mode"] = this->getMachine()->getMode();
-          doc["tea"] = this->getMachine()->getTea();
-          doc["coffee"] = this->getMachine()->getCoffee();
-          doc["chocolate"] = this->getMachine()->getChocolate();
-          doc["sugar"] = this->getMachine()->getSugar();
+          doc["tea"] = this->getMachine()->getTea()->getAvailability();
+          doc["coffee"] = this->getMachine()->getCoffee()->getAvailability();
+          doc["chocolate"] = this->getMachine()->getChocolate()->getAvailability();
+          doc["sugar"] = this->getMachine()->getSugar()->getAvailability();
           doc["nTests"] = this->getMachine()->getNSelfTests();
           serializeJson(doc, Serial);
           Serial.println("");
@@ -50,10 +50,10 @@ void SerialMessengerTask::tick() {
         } else if (msg->getContent() == "monitor") {
           StaticJsonDocument<200> doc;
           doc["mode"] = this->getMachine()->getMode();
-          doc["tea"] = this->getMachine()->getTea();
-          doc["coffee"] = this->getMachine()->getCoffee();
-          doc["chocolate"] = this->getMachine()->getChocolate();
-          doc["sugar"] = this->getMachine()->getSugar();
+          doc["tea"] = this->getMachine()->getTea()->getAvailability();
+          doc["coffee"] = this->getMachine()->getCoffee()->getAvailability();
+          doc["chocolate"] = this->getMachine()->getChocolate()->getAvailability();
+          doc["sugar"] = this->getMachine()->getSugar()->getAvailability();
           doc["nTests"] = this->getMachine()->getNSelfTests();
           serializeJson(doc, Serial);
           Serial.println("");

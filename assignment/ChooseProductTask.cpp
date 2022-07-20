@@ -2,11 +2,10 @@
 #include "Button.h"
 #include "Sensor.h"
 #include <EnableInterrupt.h>
-#include <LiquidCrystal_I2C.h>
 
 #define T_CHOOSE 5000 // ms
 
-ChooseProductTask::ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, LiquidCrystal_I2C* lcdScreen) : Task(machine) {
+ChooseProductTask::ChooseProductTask(SmartCoffeeMachine* machine, Button* upBtn, Button* downBtn, Button* makeBtn, Sensor* potSugar, Screen* lcdScreen) : Task(machine) {
     this->upButton = upBtn;
     this->downButton = downBtn;
     this->makeButton = makeBtn;
@@ -27,8 +26,7 @@ void ChooseProductTask::tick() {
     this->downButton->sync();
     this->makeButton->sync();
     switch(this->state){
-        case CP0:
-            //this->getMachine()->setMake(false);      
+        case CP0:     
             if(this->getMachine()->isReady()) {
                 this->state = CP1;
             }
