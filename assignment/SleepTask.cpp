@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <avr/sleep.h>
 
-#define T_IDLE 10000 //60000
+#define T_IDLE 60000
 
 SleepTask::SleepTask(SmartCoffeeMachine* machine, Sensor* pirSensor) : Task(machine) {
   this->pir = pirSensor;
